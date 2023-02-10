@@ -36,7 +36,7 @@ class Ruksak(object):
             return True
         return False
 
-    def sortirani(self,predmeti, key = Predmet.ratio):
+    def sortirani(self,predmeti, key = Item.ratio):
         return sorted(predmeti, key = key, reverse = True)
     
     def remove_predmet(self, predmet):
