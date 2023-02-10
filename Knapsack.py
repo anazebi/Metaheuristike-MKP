@@ -1,5 +1,5 @@
 from copy import deepcopy
-from Item import Item
+from Predmet import Item
 from time import clock
 from functools import reduce
 
@@ -15,7 +15,7 @@ class Ruksak(object):
         self.broj_iteracija = 0
         self.koraci_do_sada = []
         for ind, arg in enumerate(args):
-            setattr(self,'con{}'.format(ind+1),int(args))
+            setattr(self,'property{}'.format(ind+1),int(arg))
         properties_number = len(args)
         for key in kwargs.keys():
             setattr(self,key,kwargs[key])
@@ -23,14 +23,14 @@ class Ruksak(object):
     def mogu_dodati(self,predmet):
         flag = not predmet in self.predmeti
         for i in range(properties_number):
-            flag = flag and getattr(self,'con{}'.format(i+1) >= getattr(predmet,'con{}'.format(i+1)))
+            flag = flag and getattr(self,'property{}'.format(i+1) >= getattr(predmet,'property{}'.format(i+1)))
             return flag
     
     def dodaj_predmet(self, predmet):
         if self.mogu_dodati(predmet):
             self.predmeti.append(predmet)
             for i in range(properties_number):
-                setattr(self, 'con{}'.format(i+1),getattr(self,'con{}'.format(i+1))- getattr(predmet,'con{}'.format(i+1)))
+                setattr(self, 'property{}'.format(i+1),getattr(self,'property{}'.format(i+1))- getattr(predmet,'property{}'.format(i+1)))
             self.vrijednost += predmet.value
             self.svi_predmeti.remove(predmet)
             return True
@@ -42,7 +42,7 @@ class Ruksak(object):
     def remove_predmet(self, predmet):
         if predmet in self.predmeti:
             for i in range(properties_number):
-                setattr(self, 'con{}'.format(i+1), getattr(self, 'con{}'.format(i+1))+ getattr(predmet, 'con{}'.format(i+1)))
+                setattr(self, 'property{}'.format(i+1), getattr(self, 'property{}'.format(i+1))+ getattr(predmet, 'property{}'.format(i+1)))
             
             self.vrijednost -= predmet.value
             self.predmeti.remove(predmet)
