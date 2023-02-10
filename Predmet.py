@@ -16,12 +16,14 @@ class Item(object):
         for ind, val in enumerate(properties):
             setattr(self, 'property{}'.format(ind+1), int(val)) 
 
-    ## not sure hocemo li trebati ovu operaciju
-    ## def ratio(self):
-    ##    sum = 0
-    ##    for i in range(properties_number):
-    ##        sum += getattr(self, 'property{}'.format(i+1))
-    ##    return self.value / sum
+   
+    ## koristimo u pohlepnom pristupu
+    ## predmete sortiramo po omjeru njihove vrijednosti te njihove ukupne tezine
+    def ratio(self):
+        suma = 0
+        for i in range(properties_number):
+            sum += getattr(self, 'property{}'.format(i+1))
+        return self.value / suma
 
     ## overloadamo operator == da bismo metodu usporedivanja dva predmeta
     def __eq__(self, item2):
@@ -30,4 +32,3 @@ class Item(object):
         for i in range(properties_number):
             result = result and getattr(self, 'property{}'.format(i+1)) == getattr(item2, 'con{}'.format(i+1))
         return result
-
