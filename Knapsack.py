@@ -26,6 +26,16 @@ class Ruksak(object):
             flag = flag and getattr(self,'property{}'.format(i+1) >= getattr(predmet,'property{}'.format(i+1)))
             return flag
     
+     def makni_predmet(self, predmet):
+        if predmet in self.predmeti:
+            for i in range(properties_number):
+                setattr(self, 'con{}'.format(i+1), getattr(self, 'con{}'.format(i+1)) + getattr(item, 'con{}'.format(i+1)))
+            self.vrijednost -= predmet.vrijednost
+            self.predmeti.remove(predmet)
+            self.svi_predmeti.append(predmet)
+            return True
+        return False
+    
     def dodaj_predmet(self, predmet):
         if self.mogu_dodati(predmet):
             self.predmeti.append(predmet)
