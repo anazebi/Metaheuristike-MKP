@@ -81,15 +81,15 @@ class Ruksak(object):
         if predmet1 not in self.predmeti or predmet2 in self.predmeti:
             return False
         for i in range properties_number:
-            if not (getattr(predmet2, 'con{}'.format(i)) <= (getattr(self, 'con{}'.format(i))+getattr(predmet1, 'con{}'.format(i)))
-                    return False
+            if not (getattr(predmet2, 'con{}'.format(i)) <= (getattr(self, 'con{}'.format(i))+getattr(predmet1, 'con{}'.format(i))))
+                return False
         return self.vrijednost - predmet1.vrijednost + predmet2.vrijednost
                     
-   def zamjena(predmet1, predmet2):
+    def zamjena(predmet1, predmet2):
         if self.mogu_zamjeniti(predmet1, predmet2):
-             self.makni_predmet(predmet1)
-             self.dodaj_predmet(predmet2)
-             return True
+            self.makni_predmet(predmet1)
+            self.dodaj_predmet(predmet2)
+            return True
         return False
 
 
