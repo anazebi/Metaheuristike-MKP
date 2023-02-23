@@ -29,7 +29,7 @@ class Ruksak(object):
      def makni_predmet(self, predmet):
         if predmet in self.predmeti:
             for i in range(properties_number):
-                setattr(self, 'con{}'.format(i+1), getattr(self, 'con{}'.format(i+1)) + getattr(item, 'con{}'.format(i+1)))
+                setattr(self, 'con{}'.format(i+1), getattr(self, 'con{}'.format(i+1)) + getattr(item, 'con{}'.format(i+1))))
             self.vrijednost -= predmet.vrijednost
             self.predmeti.remove(predmet)
             self.svi_predmeti.append(predmet)
