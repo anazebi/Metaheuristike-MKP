@@ -85,7 +85,7 @@ class Ruksak(object):
                     return False
         return self.vrijednost - predmet1.vrijednost + predmet2.vrijednost
                     
-    def zamjena(predmet1, predmet2):
+   def zamjena(predmet1, predmet2):
         if self.mogu_zamjeniti(predmet1, predmet2):
              self.makni_predmet(predmet1)
              self.dodaj_predmet(predmet2)
