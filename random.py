@@ -1,11 +1,15 @@
 from copy import deepcopy
 from random import shuffle
+from Ruksak import Knapsack
 
 def random_rjesenje(ruksak):
-    predmeti=deepcopy(ruksak.svi_predmeti)
-    shuffle(predmeti)
-    for predmet in predmeti:
-        if ruksak.mogu_dodati(predmet):
-            ruksak.dodaj_predmet(predmet)
+
+    items = deepcopy(ruksak.all_items)
+
+    shuffle(items)
+
+    for item in items:
+        if ruksak.can_add(item):
+            ruksak.add-item(item)
         else:
             continue

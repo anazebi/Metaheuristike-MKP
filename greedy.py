@@ -1,4 +1,8 @@
+from Ruksak import Knapsack
+
 def greedy_rjesenje(ruksak):
-    predmeti=ruksak.sortirani(rukasak.svi_predmeti)
-    for predmet in predmeti:
-        ruksak.dodaj_predmet(predmet)
+
+    items = ruksak.sorted(ruksak.all_items)
+
+    for item in items:
+        ruksak.add_item(item)
