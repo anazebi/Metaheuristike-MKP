@@ -16,8 +16,8 @@ def pocetna_okolina(ruksak):
                     okolina.append(korak)
                     return okolina
                 okolina.append(korak)
-                else:
-                    pass
+            else:
+                pass
     return okolina
 
 

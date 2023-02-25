@@ -24,12 +24,12 @@ class Ruksak(object):
         flag = not predmet in self.predmeti
         for i in range(properties_number):
             flag = flag and getattr(self,'property{}'.format(i+1) >= getattr(predmet,'property{}'.format(i+1)))
-            return flag
+        return flag
     
-     def makni_predmet(self, predmet):
+    def makni_predmet(self, predmet):
         if predmet in self.predmeti:
             for i in range(properties_number):
-                setattr(self, 'con{}'.format(i+1), getattr(self, 'con{}'.format(i+1)) + getattr(item, 'con{}'.format(i+1))))
+                setattr(self, 'property{}'.format(i+1), getattr(self, 'property{}'.format(i+1)) + getattr(item, 'property{}'.format(i+1)))
             self.vrijednost -= predmet.vrijednost
             self.predmeti.remove(predmet)
             self.svi_predmeti.append(predmet)
@@ -60,7 +60,7 @@ class Ruksak(object):
             return True
         return False
    
-    def izvsi_korak(self, korak, silent=False):
+    def izvrsi_korak(self, korak, silent=False):
         for predmet in korak.makni_predmete:
             if not predmet in self:
                 return False
@@ -80,12 +80,12 @@ class Ruksak(object):
     def mogu_zamjeniti(self, predmet1, predmet2):
         if predmet1 not in self.predmeti or predmet2 in self.predmeti:
             return False
-        for i in range properties_number:
-            if not (getattr(predmet2, 'con{}'.format(i)) <= (getattr(self, 'con{}'.format(i))+getattr(predmet1, 'con{}'.format(i))))
+        for i in range (properties_number):
+            if not (getattr(predmet2, 'property{}'.format(i)) <= (getattr(self, 'property{}'.format(i))+getattr(predmet1, 'property{}'.format(i)))):
                 return False
         return self.vrijednost - predmet1.vrijednost + predmet2.vrijednost
                     
-    def zamjena(predmet1, predmet2):
+    def zamjena(self,predmet1, predmet2):
         if self.mogu_zamjeniti(predmet1, predmet2):
             self.makni_predmet(predmet1)
             self.dodaj_predmet(predmet2)
