@@ -38,7 +38,7 @@ class TabuSearch(object):
     def __call__(self, neighborhood_function, knapsack):
 
         solutions = neighborhood_function(knapsack) 
-        sorted_steps = self.sorted_steps(knapsack)
+        sorted_steps = self.sorted_steps(solutions)
         [sorted_steps.remove(tabu.reverse()) for tabu in knapsack.tabu_list if tabu.reverse() in sorted_steps]  
         
         best_solution = knapsack.value          # trenutna konfiguracija
