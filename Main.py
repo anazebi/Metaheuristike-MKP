@@ -32,12 +32,12 @@ def load_items_from(file_name):                     # ucitavanje podataka o pred
 
     return items
 
-def load_capacities_from(file_name):
+def load_capacities_from(file_name):                # ucitavanje kapaciteta svih dimenzija ruksaka
 
     lines = open(file_name).readlines()
     return lines[-1].split()
 
-def load_bag_from(file_name):
+def load_bag_from(file_name):                       # kreiranje ruksaka s podacima sadrzanima u datoteci file_name
 
     capacities = load_capacities_from(file_name)
     return Knapsack(load_items_from(file_name), *capacities)

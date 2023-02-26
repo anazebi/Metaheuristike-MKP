@@ -53,7 +53,7 @@ class TabuSearch(object):
                 next_step = sorted_steps.pop(0)
                 solution = knapsack.value + next_step.evaluate_step
                 knapsack.execute_step(next_step)
-                knapsack.tabu_list.append(next_step.reverse())          # u tabu listu dodajemo novi zabranjeni korak, koji bi ponistio upravo napravljeni korak (sprjecavamo vracanje u upravo odabrano stanje iduca 3 koraka)
+                knapsack.tabu_list.append(next_step.reverse())          # u tabu listu dodajemo novi zabranjeni korak, koji bi ponistio upravo napravljeni korak (sprjecavamo vracanje u upravo odabrano stanje)
                 
                 if(solution > best_solution):
                     print ("Trenutna iteracija %d, trenutno rjesenje %d, bolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
