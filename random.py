@@ -10,6 +10,6 @@ def random_rjesenje(ruksak):
 
     for item in items:
         if ruksak.can_add(item):
-            ruksak.add-item(item)
+            ruksak.add_item(item)
         else:
             continue

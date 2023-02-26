@@ -1,6 +1,7 @@
 from copy import deepcopy
 from Predmet import Item
 from functools import reduce
+from time import clock
 
 properties_number = 0
 
@@ -8,6 +9,7 @@ class Knapsack(object):
 
     def __init__(self, all_items, *restrictions, **kwargs):
         
+        self.all_items = all_items
         self.value = 0
         self.items_out = all_items              # predmeti van ruksaka
         self.start_value = 0
@@ -85,8 +87,8 @@ class Knapsack(object):
     def switch(self, item1, item2):                   # vraca True ako je zamjena uspjesno obavljena, false inace 
         
         if self.switch_possible(item1, item2):
-            self.add_item(item2)
-            self.remove_item(item1)
+            self.add_item(item2)                      # izbacuje item1, dodaje item2
+            self.remove_item(item1)                     
             return True
 
         return False
@@ -114,6 +116,58 @@ class Knapsack(object):
             self.iterations += 1
             self.steps.append(step)
 
+    def optimization_tabu(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):
+        
+        start = clock()
+
+        initial_solution_function(self)                     # pronalazi inicijalno/pocetno rjesenje
+        self.initial_solution = deepcopy(self.items)    
+        self.initial_value = self.value
+
+        heuristic_function(neighborhood_function, self)     # inicijalno rjesenje poboljsavamo danom heuristikom primjenom algoritma tabu search
+
+        end = clock()
+
+        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        for i in range(len(self.items)):
+            print (vars(self.initial_solution[i]))
+        print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
+
+        print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom heuristike na inicijalno rjesenje: %d' % self.value)              
+        print ('Koristeci heuristiku ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
+
+        for i in range(properties_number):
+            print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))
+
+        print ('Broj predmeta u ruksaku: %s' % len(self.items))
+        print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
+
+    
+    def optimization_local(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):  # lokalno trazenje
+        
+        start = clock()
+        
+        initial_solution_function(self)
+        self.initial_solution = deepcopy(self.items)
+        self.initial_value = self.value
+        
+        heuristic_function(self, neighborhood_function)
+        
+        end = clock()
+        
+        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        for i in range(len(self.items)):
+            print (vars(self.initial_solution[i]))
+        print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
+
+        print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom heuristike na inicijalno rjesenje: %d' % self.value)              
+        print ('Koristeci heuristiku ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
+
+        for i in range(properties_number):
+            print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))
+
+        print ('Broj predmeta u ruksaku: %s' % len(self.items))
+        print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
 
 
 # klasa koja predstavlja korak prijelaza iz jedne konfiguracije u drugu
