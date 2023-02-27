@@ -29,7 +29,7 @@ def sort_steps(steps):             # sortira korake silazno po promjeni vrijedno
     return sorted(steps, key = lambda x: x.evaluate_step, reverse = True)
 
 def best_improve(knapsack):        # izvrsava pronadeni korak iz okoline trenutne konfiguracije ruksaka koji poboljsava ukupnu vrijednost predmeta u ruksaku
-                                   # funkcija koja mijenja konfiguraciju ruksaka, ako je pozitivna promjena moguca
+                                   # funkcija koja mijenja konfiguraciju ruksaka
     start = first_improve(knapsack)
     sorted_steps = sort_steps(start)
     best_solution = knapsack.value
@@ -38,7 +38,7 @@ def best_improve(knapsack):        # izvrsava pronadeni korak iz okoline trenutn
 
     if not len(sorted_steps) == 0:
         next_step = sorted_steps.pop(0)
-        solution = knapsack.value + next_step.evaluate_step
+        solution = knapsack.value + next_step.evaluate_step()
         knapsack.execute_step(next_step)
 
         if solution > best_solution:

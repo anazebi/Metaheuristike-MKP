@@ -23,8 +23,6 @@ class TabuList(list):
                 return True
         return False
 
-def sort_steps(self, steps):
-    return sorted(steps, key = lambda x: x.evaluate_step, reverse = True)
 
 # klasa koja predstavlja TabuSearch algoritam
 class TabuSearch(object): 
@@ -35,11 +33,14 @@ class TabuSearch(object):
         self.iteration_better = 0               # zadnja iteracija koja je poboljsala vrijednost ruksaka
         self.max_iteration = max_iteration      # maksimalan dozvoljeni broj uzastopnih iteracija bez poboljsanja vrijednosti ruksaka
 
+    def sort_steps(self, steps):             # sortira korake silazno po promjeni vrijednosti ruksaka koju uzrokuju
+        return sorted(steps, key = lambda x: x.evaluate_step, reverse = True)
+        
     def __call__(self, neighborhood_function, knapsack):
 
         solutions = neighborhood_function(knapsack) 
-        sorted_steps = self.sorted_steps(solutions)
-        [sorted_steps.remove(tabu.reverse()) for tabu in knapsack.tabu_list if tabu.reverse() in sorted_steps]  
+        sorted_steps = self.sort_steps(solutions)
+        [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps]  
         
         best_solution = knapsack.value          # trenutna konfiguracija
         best_solution_steps = deepcopy(knapsack.steps)
@@ -51,9 +52,9 @@ class TabuSearch(object):
 
             if not len(sorted_steps) == 0:
                 next_step = sorted_steps.pop(0)
-                solution = knapsack.value + next_step.evaluate_step
+                solution = knapsack.value + next_step.evaluate_step()
                 knapsack.execute_step(next_step)
-                knapsack.tabu_list.append(next_step.reverse())          # u tabu listu dodajemo novi zabranjeni korak, koji bi ponistio upravo napravljeni korak (sprjecavamo vracanje u upravo odabrano stanje)
+                knapsack.tabu_list.append(next_step.reverse_step())          # u tabu listu dodajemo novi zabranjeni korak, koji bi ponistio upravo napravljeni korak (sprjecavamo vracanje u upravo odabrano stanje)
                 
                 if(solution > best_solution):
                     print ("Trenutna iteracija %d, trenutno rjesenje %d, bolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
@@ -76,7 +77,7 @@ class TabuSearch(object):
             
             next_solutions = neighborhood_function(knapsack) 
             sorted_steps = self.sort_steps(next_solutions)
-            [sorted_steps.remove(tabu.reverse()) for tabu in knapsack.tabu_list if tabu.reverse() in sorted_steps] # micemo zabranjene poteze iz dostupnih poteza
+            [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps] # micemo zabranjene poteze iz dostupnih poteza
 
         print ("Bolje rjesenje nadeno je u iteraciji %d s vrijednoscu %d" % (self.iteration_better, best_solution))
 

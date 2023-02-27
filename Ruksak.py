@@ -1,7 +1,7 @@
 from copy import deepcopy
 from Predmet import Item
 from functools import reduce
-from time import clock
+from time import process_time
 
 properties_number = 0
 
@@ -22,6 +22,7 @@ class Knapsack(object):
             setattr(self, 'property{}'.format(indeks + 1), int(restriction))
 
         # broj dimenzija ruksaka
+        global properties_number
         properties_number = len(restrictions)
 
         for key in kwargs.keys():
@@ -49,6 +50,8 @@ class Knapsack(object):
                 # smanjujemo preostali kapacitet svake dimenzije ruksaka za pripadne vrijednosti tezina predmeta kojeg u njega dodajemo
             self.items_in.append(item)
             self.items_out.remove(item)
+            # print("dodan predmet")
+            # print(vars(item))
             return True
         
         return False
@@ -63,6 +66,8 @@ class Knapsack(object):
             self.value = self.value - item.value
             self.items_out.append(item)         # dodajemo predmet u listu predmeta izvan ruksaka
             self.items_in.remove(item)          # izbacujemo predmet iz liste predmeta sadrzanih u ruksaku
+            # print("uklonjen predmet")
+            # print(vars(item))
             return True
 
         return False
@@ -101,16 +106,20 @@ class Knapsack(object):
         return False
 
     def execute_step(self, step, silent = False):
-        
-        for item in step.add_items:
-            if not item in self.items_out:
-                return False
-            self.add_item(item)
-
+       
         for item in step.remove_items:
             if not item in self.items_in:
                 return False
             self.remove_item(item)
+            # print("Uklonjen predmet u koraku")
+            # print(vars(item))
+
+        for item in step.add_items:
+            if not item in self.items_out:
+                return False
+            self.add_item(item)
+            # print("dodan predmet u koraku")
+            # print(vars(item))
 
         if not silent:
             self.iterations += 1
@@ -118,15 +127,15 @@ class Knapsack(object):
 
     def optimization_tabu(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):
         
-        start = clock()
+        start = process_time()
 
         initial_solution_function(self)                     # pronalazi inicijalno/pocetno rjesenje
-        self.initial_solution = deepcopy(self.items)    
+        self.initial_solution = deepcopy(self.items_in)    
         self.initial_value = self.value
 
         heuristic_function(neighborhood_function, self)     # inicijalno rjesenje poboljsavamo danom heuristikom primjenom algoritma tabu search
 
-        end = clock()
+        end = process_time()
 
         print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
         for i in range(len(self.items)):
@@ -145,18 +154,18 @@ class Knapsack(object):
     
     def optimization_local(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):  # lokalno trazenje
         
-        start = clock()
+        start = process_time()
         
-        initial_solution_function(self)
-        self.initial_solution = deepcopy(self.items)
-        self.initial_value = self.value
+        initial_solution_function(self)                         # pronalazi inicijalno rjesenje
+        self.initial_solution = deepcopy(self.items_in)         
+        self.initial_value = self.value                         # vrijednost inicijalnog rjesenja
         
-        heuristic_function(self, neighborhood_function)
+        heuristic_function(self)
         
-        end = clock()
+        end = process_time()
         
         print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
-        for i in range(len(self.items)):
+        for i in range(len(self.initial_solution)):
             print (vars(self.initial_solution[i]))
         print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
 
@@ -165,8 +174,11 @@ class Knapsack(object):
 
         for i in range(properties_number):
             print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))
+        
+        for i in range(len(self.items_in)):
+            print(vars(self.items_in[i]))
 
-        print ('Broj predmeta u ruksaku: %s' % len(self.items))
+        print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
         print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
 
 

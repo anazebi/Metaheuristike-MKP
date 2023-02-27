@@ -1,5 +1,6 @@
-from random import random_rjesenje
-from greedy import greedy_rjesenje 
+from lib2to3.pgen2.token import NEWLINE
+from Random_solution import random_rjesenje
+from Greedy_solution import greedy_rjesenje 
 from Predmet import Item
 from Ruksak import Knapsack
 import Neighborhood
@@ -40,11 +41,11 @@ def load_capacities_from(file_name):                # ucitavanje kapaciteta svih
 def load_bag_from(file_name):                       # kreiranje ruksaka s podacima sadrzanima u datoteci file_name
 
     capacities = load_capacities_from(file_name)
-    return Knapsack(load_items_from(file_name), *capacities)
+    return (load_items_from(file_name), *capacities)
 
 if __name__ == '__main__':
 
-    bag = Knapsack(*load_bag_from('instances_shared/class1/100-5-01.txt'), tabu_list = TabuList(200))
+    bag = Knapsack(*load_bag_from('100-5-01.txt'), tabu_list = TabuList(200))
     # local search heuristic
     bag.optimization_local(greedy_rjesenje, Neighborhood.best_improve, Neighborhood.first_improve)
     # Tabu metaheuristic
