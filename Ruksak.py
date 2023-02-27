@@ -137,7 +137,7 @@ class Knapsack(object):
 
         end = process_time()
 
-        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        # print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
         # for i in range(len(self.initial_solution)):
             # print (vars(self.initial_solution[i]))
         print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)

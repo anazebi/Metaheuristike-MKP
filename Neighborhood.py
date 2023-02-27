@@ -14,12 +14,15 @@ def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksak
 
          for item1 in knapsack.sort(knapsack.items_in):
              
+             print("Trenutno: ", knapsack.value)
+
              if knapsack.switch_possible(item1, item2):
                  new_value = knapsack.evaluate_switch(item1, item2)
                  step = Step(add_items = [item2,], remove_items = [item1,])
 
                  if new_value > knapsack.value:
                      neighborhood.append(step)
+                     print("Poboljsanje: ", new_value)
                      return neighborhood
 
                  neighborhood.append(step)
