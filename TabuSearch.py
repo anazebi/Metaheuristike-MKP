@@ -5,7 +5,7 @@ from Neighborhood import sort_steps
 # tabu lista koja sadrzi "zabranjene korake" 
 class TabuList(list):
 
-    # tabu lista ce biti duljine 3
+    # tabu lista ce biti duljine 3, ako ne zadamo drugacije
     def __init__(self, size = 3):           
         self.size = size
         super(TabuList, self).__init__()
@@ -18,9 +18,9 @@ class TabuList(list):
         return super(TabuList, self).append(element)
 
     # provjera sadrzi li tabu lista dani korak
-    def __contains__(self, move):
+    def __contains__(self, step):
         for i in range(len(self)):
-            if move == self[i]:
+            if step == self[i]:
                 return True
         return False
 
@@ -28,9 +28,9 @@ class TabuList(list):
 # klasa koja predstavlja TabuSearch algoritam
 class TabuSearch(object): 
 
-    def __init__(self, max_iteration = 2):
+    def __init__(self, max_iteration = 2):      # ako ne zadamo drugacije, dopustene su maksimalno dvije uzastopne iteracije bez poboljsanja ukupne vrijednosti ruksaka
         
-        self.iteration_counter = 0              # broj provedenih iteracija
+        self.iteration_counter = 0              # ukupan broj provedenih iteracija
         self.iteration_better = 0               # zadnja iteracija koja je poboljsala vrijednost ruksaka
         self.max_iteration = max_iteration      # maksimalan dozvoljeni broj uzastopnih iteracija bez poboljsanja vrijednosti ruksaka
 
