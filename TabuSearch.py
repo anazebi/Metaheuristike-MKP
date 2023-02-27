@@ -1,5 +1,6 @@
 from copy import deepcopy
 from functools import reduce
+from Neighborhood import sort_steps
 
 # tabu lista koja sadrzi "zabranjene korake" 
 class TabuList(list):
@@ -33,13 +34,13 @@ class TabuSearch(object):
         self.iteration_better = 0               # zadnja iteracija koja je poboljsala vrijednost ruksaka
         self.max_iteration = max_iteration      # maksimalan dozvoljeni broj uzastopnih iteracija bez poboljsanja vrijednosti ruksaka
 
-    def sort_steps(self, steps):             # sortira korake silazno po promjeni vrijednosti ruksaka koju uzrokuju
-        return sorted(steps, key = lambda x: x.evaluate_step, reverse = True)
+    # def sort_steps(steps):             # sortira korake silazno po promjeni vrijednosti ruksaka koju uzrokuju
+    #    return sorted(steps, key = lambda x: x.evaluate_step, reverse = True)
         
     def __call__(self, neighborhood_function, knapsack):
 
         solutions = neighborhood_function(knapsack) 
-        sorted_steps = self.sort_steps(solutions)
+        sorted_steps = sort_steps(solutions)
         [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps]  
         
         best_solution = knapsack.value          # trenutna konfiguracija
@@ -63,9 +64,9 @@ class TabuSearch(object):
                     best_solution_items = deepcopy(knapsack.items_in)
                     self.iteration_better = self.iteration_counter
             else:
-                best_tabu = reduce(lambda x, y: x if x.evaluate_step > y.evaluate_step else y, knapsack.tabu_list) # najbolji zabranjeni korak
-                if best_tabu.evaluate_step > 0:  # ako zabranjeni korak daje novo globalno optimalno rjesenje, dopustamo njegovo izvrsavanje
-                    solution = knapsack.value + best_tabu.evaluate_step
+                best_tabu = reduce(lambda x, y: x if x.evaluate_step() > y.evaluate_step() else y, knapsack.tabu_list) # najbolji zabranjeni korak
+                if best_tabu.evaluate_step() > 0:  # ako zabranjeni korak daje novo globalno optimalno rjesenje, dopustamo njegovo izvrsavanje
+                    solution = knapsack.value + best_tabu.evaluate_step()
                     if solution > best_solution:
                         print ("[TABU POTEZ] Trenutna iteracija %d, trenutno rjesenje %d, bolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
                         best_solution = solution
@@ -76,7 +77,7 @@ class TabuSearch(object):
                     knapsack.execute_step(best_tabu)
             
             next_solutions = neighborhood_function(knapsack) 
-            sorted_steps = self.sort_steps(next_solutions)
+            sorted_steps = sort_steps(next_solutions)
             [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps] # micemo zabranjene poteze iz dostupnih poteza
 
         print ("Bolje rjesenje nadeno je u iteraciji %d s vrijednoscu %d" % (self.iteration_better, best_solution))

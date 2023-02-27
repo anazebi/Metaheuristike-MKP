@@ -3,6 +3,9 @@ from random import choice, shuffle
 from copy import deepcopy
 from Ruksak import properties_number
 
+def sort_steps(steps):             # sortira korake silazno po promjeni vrijednosti ruksaka koju uzrokuju
+    return sorted(steps, key = lambda x: x.evaluate_step(), reverse = True)
+
 def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksaka do pronalazenja prve zamjene predmeta koja poboljsava vrijednost ruksaka, uz postivanje svih njegovih kapaciteta
 
      neighborhood = []
@@ -24,9 +27,6 @@ def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksak
                  pass
 
      return neighborhood
-
-def sort_steps(steps):             # sortira korake silazno po promjeni vrijednosti ruksaka koju uzrokuju
-    return sorted(steps, key = lambda x: x.evaluate_step, reverse = True)
 
 def best_improve(knapsack):        # izvrsava pronadeni korak iz okoline trenutne konfiguracije ruksaka koji poboljsava ukupnu vrijednost predmeta u ruksaku
                                    # funkcija koja mijenja konfiguraciju ruksaka

@@ -138,8 +138,8 @@ class Knapsack(object):
         end = process_time()
 
         print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
-        for i in range(len(self.items)):
-            print (vars(self.initial_solution[i]))
+        # for i in range(len(self.initial_solution)):
+            # print (vars(self.initial_solution[i]))
         print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
 
         print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom heuristike na inicijalno rjesenje: %d' % self.value)              
@@ -148,7 +148,7 @@ class Knapsack(object):
         for i in range(properties_number):
             print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))
 
-        print ('Broj predmeta u ruksaku: %s' % len(self.items))
+        print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
         print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
 
     
@@ -175,8 +175,8 @@ class Knapsack(object):
         for i in range(properties_number):
             print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))
         
-        for i in range(len(self.items_in)):
-            print(vars(self.items_in[i]))
+        # for i in range(len(self.items_in)):
+        #    print(vars(self.items_in[i]))
 
         print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
         print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
