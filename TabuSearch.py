@@ -12,9 +12,9 @@ class TabuList(list):
 
     # dodavanje koraka u listu FIFO nacinom
     def append(self, element):
-        if len(self) == self.size:          
-            self.pop(0)
-            return super(TabuList, self).append(element)
+        if len(self) == self.size:                              
+            self.pop(0)                                     # ako je tabu lista puna, izbacijemo iz nje element koji je prvi dodan
+            return super(TabuList, self).append(element)    # na kraj liste dodajemo zeljeni element
         return super(TabuList, self).append(element)
 
     # provjera sadrzi li tabu lista dani korak
@@ -41,7 +41,10 @@ class TabuSearch(object):
 
         solutions = neighborhood_function(knapsack) 
         sorted_steps = sort_steps(solutions)
-        [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps]  
+        for tabu in knapsack.tabu_list:
+            if tabu.reverse_step() in sorted_steps:
+                sorted_steps.remove(tabu.reverse_step())
+        # [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps]  
         
         best_solution = knapsack.value          # trenutna konfiguracija
         best_solution_steps = deepcopy(knapsack.steps)
@@ -58,7 +61,7 @@ class TabuSearch(object):
                 knapsack.tabu_list.append(next_step.reverse_step())          # u tabu listu dodajemo novi zabranjeni korak, koji bi ponistio upravo napravljeni korak (sprjecavamo vracanje u upravo odabrano stanje)
                 
                 if(solution > best_solution):
-                    print ("Trenutna iteracija %d, trenutno rjesenje %d, bolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
+                    print ("Trenutna iteracija %d, trenutno rjesenje %d, najbolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
                     best_solution = solution
                     best_solution_steps = deepcopy(knapsack.steps)
                     best_solution_items = deepcopy(knapsack.items_in)
@@ -68,7 +71,7 @@ class TabuSearch(object):
                 if best_tabu.evaluate_step() > 0:  # ako zabranjeni korak daje novo globalno optimalno rjesenje, dopustamo njegovo izvrsavanje
                     solution = knapsack.value + best_tabu.evaluate_step()
                     if solution > best_solution:
-                        print ("[TABU POTEZ] Trenutna iteracija %d, trenutno rjesenje %d, bolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
+                        print ("[TABU POTEZ] Trenutna iteracija %d, trenutno rjesenje %d, najbolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
                         best_solution = solution
                         best_solution_steps = deepcopy(knapsack.steps)
                         best_solution_items = deepcopy(knapsack.items_in)
@@ -78,9 +81,12 @@ class TabuSearch(object):
             
             next_solutions = neighborhood_function(knapsack) 
             sorted_steps = sort_steps(next_solutions)
-            [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps] # micemo zabranjene poteze iz dostupnih poteza
+            # [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps] # micemo zabranjene poteze iz dostupnih poteza
+            for tabu in knapsack.tabu_list:
+                if tabu.reverse_step() in sorted_steps:
+                    sorted_steps.remove(tabu.reverse_step())
 
-        print ("Bolje rjesenje nadeno je u iteraciji %d s vrijednoscu %d" % (self.iteration_better, best_solution))
+        print ("Najbolje rjesenje nadeno je u iteraciji %d s vrijednoscu %d" % (self.iteration_better, best_solution))
 
         knapsack.value = best_solution
         knapsack.items_in = best_solution_items
