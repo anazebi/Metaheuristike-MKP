@@ -12,9 +12,10 @@ def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksak
 
      for item2 in knapsack.sort(knapsack.items_out):            
 
+         current_value = knapsack.value
+         print("Trenutno: ", current_value)
+
          for item1 in knapsack.sort(knapsack.items_in):
-             
-             print("Trenutno: ", knapsack.value)
 
              if knapsack.switch_possible(item1, item2):
                  new_value = knapsack.evaluate_switch(item1, item2)
@@ -33,8 +34,8 @@ def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksak
 
 def best_improve(knapsack):        # izvrsava pronadeni korak iz okoline trenutne konfiguracije ruksaka koji poboljsava ukupnu vrijednost predmeta u ruksaku
                                    # funkcija koja mijenja konfiguraciju ruksaka
-    start = first_improve(knapsack)
-    sorted_steps = sort_steps(start)
+    start = first_improve(knapsack)             # pronalazi konfiguracije koje mozemo doseci iz trenutne konfiguracije
+    sorted_steps = sort_steps(start)            
     best_solution = knapsack.value
     best_solution_steps = deepcopy(knapsack.steps)
     best_solution_items = deepcopy(knapsack.items_in)

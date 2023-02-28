@@ -41,18 +41,26 @@ class TabuSearch(object):
 
         solutions = neighborhood_function(knapsack) 
         sorted_steps = sort_steps(solutions)
-        for tabu in knapsack.tabu_list:
-            if tabu.reverse_step() in sorted_steps:
-                sorted_steps.remove(tabu.reverse_step())
-        # [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps]  
+        #for tabu in knapsack.tabu_list:
+            # if tabu.reverse_step() in sorted_steps:
+                # sorted_steps.remove(tabu.reverse_step())
+        [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps]  
         
-        best_solution = knapsack.value          # trenutna konfiguracija
+        best_solution = knapsack.value                      # trenutna konfiguracija
         best_solution_steps = deepcopy(knapsack.steps)
         best_solution_items = deepcopy(knapsack.items_in)
         end = False
 
         while self.iteration_counter - self.iteration_better < self.max_iteration:   
             self.iteration_counter += 1
+            
+            # if self.iteration_counter < 5:
+            #    print("IN")
+            #    for item in knapsack.items_in:
+            #        print(vars(item))
+            #    print("OUT")
+            #    for item in knapsack.items_out:
+            #        print(vars(item))
 
             if not len(sorted_steps) == 0:
                 next_step = sorted_steps.pop(0)
@@ -81,10 +89,10 @@ class TabuSearch(object):
             
             next_solutions = neighborhood_function(knapsack) 
             sorted_steps = sort_steps(next_solutions)
-            # [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps] # micemo zabranjene poteze iz dostupnih poteza
-            for tabu in knapsack.tabu_list:
-                if tabu.reverse_step() in sorted_steps:
-                    sorted_steps.remove(tabu.reverse_step())
+            [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps] # micemo zabranjene poteze iz dostupnih poteza
+            # for tabu in knapsack.tabu_list:
+                # if tabu.reverse_step() in sorted_steps:
+                    # sorted_steps.remove(tabu.reverse_step())
 
         print ("Najbolje rjesenje nadeno je u iteraciji %d s vrijednoscu %d" % (self.iteration_better, best_solution))
 

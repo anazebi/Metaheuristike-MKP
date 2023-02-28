@@ -11,7 +11,7 @@ class Knapsack(object):
         
         self.all_items = all_items
         self.value = 0
-        self.items_out = all_items              # predmeti van ruksaka
+        self.items_out = deepcopy(all_items)              # predmeti van ruksaka
         self.start_value = 0
         self.items_in = []                      # predmeti u ruksaku
         self.iterations = 0                     # broj iteracija
@@ -80,14 +80,14 @@ class Knapsack(object):
 
     def switch_possible(self, item1, item2):    # vraca True ako predmet item1 iz ruksaka mogu zamijeniti predmetom item2 koji nije u ruksaku
 
-        if item1 not in self.items_in or item2 not in self.items_out:
+        if item1 not in self.items_in or item2 in self.items_in:
             return False
 
         for i in range (properties_number):
             if(int(getattr(self, 'property{}'.format(i + 1))) + int(getattr(item1, 'property{}'.format(i + 1))) < int(getattr(item2, 'property{}'.format(i + 1)))):
                 return False
         
-            return True
+        return True
 
     def switch(self, item1, item2):                   # vraca True ako je zamjena uspjesno obavljena, false inace 
         
@@ -111,14 +111,14 @@ class Knapsack(object):
             if not item in self.items_in:
                 return False
             self.remove_item(item)
-            # print("Uklonjen predmet u koraku")
+            # print("Uklonjen predmet u koraku") ####
             # print(vars(item))
 
         for item in step.add_items:
             if not item in self.items_out:
                 return False
             self.add_item(item)
-            # print("dodan predmet u koraku")
+            # print("Dodan predmet u koraku")
             # print(vars(item))
 
         if not silent:
@@ -137,13 +137,13 @@ class Knapsack(object):
 
         end = process_time()
 
-        # print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
-        # for i in range(len(self.initial_solution)):
-            # print (vars(self.initial_solution[i]))
+        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        for i in range(len(self.initial_solution)):
+            print (vars(self.initial_solution[i]))
         print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
 
-        print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom heuristike na inicijalno rjesenje: %d' % self.value)              
-        print ('Koristeci heuristiku ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
+        print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom algoritma Tabu search na inicijalno rjesenje: %d' % self.value)              
+        print ('Koristeci Tabu search ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
 
         for i in range(properties_number):
             print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))
