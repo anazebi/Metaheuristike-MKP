@@ -234,4 +234,3 @@ def main(string):
     print("Broj predmeta je ", broj(Rjesenja[0]))
     print(Rjesenja)
     
-main("test1.txt")
