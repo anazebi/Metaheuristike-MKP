@@ -10,7 +10,7 @@ def fitness_function(C):
 def crossover1(A, B):
     C = [0 for i in range(n)]
     for i in range(n):
-        a = random.randint(0,1)
+        a = random.randint(0, 1)
         if(a == 0):
             C[i] = A[i]
         else:
@@ -18,7 +18,7 @@ def crossover1(A, B):
     return C
 
 def crossover2(A, B):
-    a = random.randint(0,n-1)
+    a = random.randint(0, n-1)
     C = A
     for i in range(a, n):
         C[i] = B[i]
@@ -31,11 +31,12 @@ def mutiraj(C):
     C[a] = abs(C[a] - 1)
     return C
 
-def provjeri_kapacitet():
+def provjeri_kapacitet(R):
     for i in range(m):
         if(R[i] > B[i]):
             return 1
     return 0
+
 
 def update(R, j, korak):
     for i in range(m):
@@ -43,12 +44,14 @@ def update(R, j, korak):
             R[i] -= W[i][j]
         else:
             R[i] += W[i][j]
-        
+
+
 def provjeri_update(R, j):
     for i in range(m):
         if(R[i] + W[i][j] > B[i]):
             return 0
     return 1
+
 
 def stvori(C):
     R = [0 for i in range(m)]
@@ -57,36 +60,40 @@ def stvori(C):
             R[i] += C[j]*W[i][j]
     return R
 
+
 def najmanji(P):
     mini = 0
     najmanji_do_sada = fitness_function(P[0])
-    for i in range(1,len(P)):
+    for i in range(1, len(P)):
         if(fitness_function(P[i]) < najmanji_do_sada):
             najmanji_do_sada = fitness_function(P[i])
             mini = i
     return mini
 
+
 def najveci(P):
     maxi = 0
     najveci_do_sada = fitness_function(P[0])
-    for i in range(1,len(P)):
+    for i in range(1, len(P)):
         if(fitness_function(P[i]) > najveci_do_sada):
             maxi = i
             najveci_do_sada = fitness_function(P[i])
     return maxi
 
+
 def odaberi_roditelje(P):
     A = P
     Rez = []
-    p1 = najveci(A) # vraca indeks jedinke s najvecom fitness funkcijom
-    P1 = A[p1] # uzimamo tu jedinku
+    p1 = najveci(A)  # vraca indeks jedinke s najvecom fitness funkcijom
+    P1 = A[p1]  # uzimamo tu jedinku
     A = np.delete(A, p1, 0)
     drugi = najveci(A)
     P2 = A[drugi]
     Rez.append(P1)
     Rez.append(P2)
     return Rez
-    
+
+
 def ratio(n, m):
     A = [0 for i in range(n)]
     for i in range(n):
@@ -96,33 +103,50 @@ def ratio(n, m):
         A[i] = V[i]/suma
     return A
 
-def repair(C, W):
-    A = ratio(n, m) # vraca listu omjera vrijednosti i tezine za svaki predmet
-    R = stvori(C)
-    W = np.array(W) # moramo transponirati matricu jer se moraju sortirati stupci (predmeti)
-    A, W, C = zip(*sorted(zip(A, W.transpose(), C))) # sortiramo liste W i C po omjerima sadrzanim u A
-    A = list(A) # kada unzipamo dobijemo tuple-ove pa ih moramo pretvoriti u listu da mozemo raditi dalje s njima
-    R = list(R)
-    W = np.array(W).transpose() # vracamo u pocetni oblik
-    W = list(W)
-    C = list(C)
+def najv(A):
+    i = 0
+    for j in range(1,len(A)):
+        if(A[j] > A[i]):
+            i = j
+    return i
+
+def najm(A):
+    i = 0
+    for j in range(1,len(A)):
+        if(A[j] < A[i]):
+            i = j
+    return i
     
+def repair(C, W):
+    A = ratio(n, m)  # vraca listu omjera vrijednosti i tezine za svaki predmet
+    R = [0 for i in range(m)]
+
     for i in range(m):
         for j in range(n):
             R[i] += W[i][j] * C[j]
-    for j in range(n-1,0,-1):
-        if(C[j] == 1 and provjeri_kapacitet() == 1):
+            
+    kopijaA = A.copy()
+    for i in range(n):
+        j = najm(A)
+        if(C[j] == 1 and provjeri_kapacitet(R) == 1):
             C[j] = 0
             update(R, j, -1)
-    for j in range(n):
+        A[j] = 5000
+        
+    A = kopijaA.copy()
+    for i in range(n):
+        j = najv(A)
         if(C[j] == 0 and provjeri_update(R, j) == 1):
             C[j] = 1
             update(R, j, 1)
+        A[j] = -1
     return C
 
+
 def inicijaliziraj():
-    P = [[0 for i in range(n)] for j in range(100)] # pocetna populacija od 100 jedinki
-    J = [i for i in range(n)]
+    # pocetna populacija od 100 jedinki
+    P = [[0 for i in range(n)] for j in range(100)]
+
     for k in range(100):
         R = [0 for i in range(m)]
         T = [i for i in range(n)]
@@ -135,6 +159,15 @@ def inicijaliziraj():
             T.remove(j)
     return P
 
+def provjera(C):
+    kapac = B.copy()
+    print("na pocetku", kapac)
+    for i in range(m):
+        for j in range(n):
+            if(C[j] == 1):
+                kapac[i]-= W[i][j]
+    print("kapacitet je ", kapac)
+    
 def genetic_algorithm():
     t = 0
     P = inicijaliziraj()
@@ -158,31 +191,42 @@ def genetic_algorithm():
             P_t = value_C
             indeks = index
         t = t + 1
-    return P[indeks],P_t
+    return P[indeks], P_t
 
-f = open("test3.txt")
+
+def broj(l):
+    br = 0
+    for i in range(n):
+        if(l[i] == 1):
+            br += 1
+    return br
+
+
+f = open("test1.txt")
 prvi = f.readline()
 prvi = prvi.split(' ')
 n = int(prvi[0])
 m = int(prvi[1])
-drugi = f.readline().replace('\n','').split(' ')
+drugi = f.readline().replace('\n', '').split(' ')
 V = [0 for i in range(n)]
 for i in range(n):
     V[i] = int(drugi[i])
-    
+
 W = [[0 for i in range(n)] for j in range(m)]
 for i in range(m):
     l = f.readline()
-    l = l.replace('\n','').split(' ')
+    l = l.replace('\n', '').split(' ')
     for j in range(n):
         W[i][j] = int(l[j])
 
 B = [0 for i in range(m)]
-l = f.readline().replace('\n','').split(' ')
+l = f.readline().replace('\n', '').split(' ')
 for i in range(m):
     B[i] = int(l[i])
-    
-U = ratio(n,m)   
+
+U = ratio(n, m)
 R = [0 for i in range(m)]
 Rjesenja = genetic_algorithm()
+provjera(Rjesenja[0])
+print("Broj predmeta je ", broj(Rjesenja[0]))
 print(Rjesenja)
