@@ -201,32 +201,37 @@ def broj(l):
             br += 1
     return br
 
+def main(string):
+    f = open(string)
+    prvi = f.readline()
+    prvi = prvi.split(' ')
+    global n 
+    n = int(prvi[0])
+    global m
+    m= int(prvi[1])
+    drugi = f.readline().replace('\n', '').split(' ')
+    global V
+    V = [0 for i in range(n)]
+    for i in range(n):
+        V[i] = int(drugi[i])
 
-f = open("test1.txt")
-prvi = f.readline()
-prvi = prvi.split(' ')
-n = int(prvi[0])
-m = int(prvi[1])
-drugi = f.readline().replace('\n', '').split(' ')
-V = [0 for i in range(n)]
-for i in range(n):
-    V[i] = int(drugi[i])
+    global W
+    W = [[0 for i in range(n)] for j in range(m)]
+    for i in range(m):
+        l = f.readline()
+        l = l.replace('\n', '').split(' ')
+        for j in range(n):
+            W[i][j] = int(l[j])
 
-W = [[0 for i in range(n)] for j in range(m)]
-for i in range(m):
-    l = f.readline()
-    l = l.replace('\n', '').split(' ')
-    for j in range(n):
-        W[i][j] = int(l[j])
+    global B
+    B = [0 for i in range(m)]
+    l = f.readline().replace('\n', '').split(' ')
+    for i in range(m):
+        B[i] = int(l[i])
 
-B = [0 for i in range(m)]
-l = f.readline().replace('\n', '').split(' ')
-for i in range(m):
-    B[i] = int(l[i])
-
-U = ratio(n, m)
-R = [0 for i in range(m)]
-Rjesenja = genetic_algorithm()
-provjera(Rjesenja[0])
-print("Broj predmeta je ", broj(Rjesenja[0]))
-print(Rjesenja)
+    Rjesenja = genetic_algorithm()
+    provjera(Rjesenja[0])
+    print("Broj predmeta je ", broj(Rjesenja[0]))
+    print(Rjesenja)
+    
+main("test1.txt")
