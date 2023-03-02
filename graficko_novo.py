@@ -50,8 +50,8 @@ buttonframe.columnconfigure(2, weight=1)
 def load_items_from(file_name):                     # ucitavanje podataka o predmetima iz datoteke s imenom file_name
     
     items = []
-
-    file_path = os.join('Testni podaci',file_name)
+   
+    file_path = os.path.join('Testni podaci',file_name)
 
     file_lines = open(file_path).readlines()
     file_lines = [line.strip().split(' ') for line in file_lines]
@@ -69,16 +69,14 @@ def load_items_from(file_name):                     # ucitavanje podataka o pred
 
 def load_capacities_from(file_name):                # ucitavanje kapaciteta svih dimenzija ruksaka
 
-    file_path = os.join('Testni podaci',file_name)
+    file_path = os.path.join('Testni podaci',file_name)
 
     lines = open(file_path).readlines()
     return lines[-1].split()
 
 def load_bag_from(file_name):                       # kreiranje ruksaka s podacima sadrzanima u datoteci file_name
 
-
-    file_path = os.join('Testni podaci',file_name)
-    capacities = load_capacities_from(file_path)
+    capacities = load_capacities_from(file_name)
     return (load_items_from(file_name), *capacities)
 
 def greedy():
@@ -119,6 +117,7 @@ btn2.grid(row=1, column=1, sticky=tk.W+tk.E)
 
 def genetski():
     podaci = podaci_combobox.get()
+    podaci = os.path.join('Testni podaci', podaci)
     
     if (podaci !=''):
         Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Genetski algoritam ", font=('Arial, 12')).pack()
