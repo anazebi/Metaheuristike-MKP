@@ -53,4 +53,5 @@ if __name__ == '__main__':
     # Tabu metaheuristic
     # bag.optimization_tabu(greedy_rjesenje, TabuSearch(300), Neighborhood.first_improve)
     # hill climbing
-    bag.optimization_hill(greedy_rjesenje, HillClimbing(100), Neighborhood.best)
+    rj = bag.optimization_hill(greedy_rjesenje, HillClimbing(100), Neighborhood.best)
+    return rj
