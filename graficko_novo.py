@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 
-
+import time
 from lib2to3.pgen2.token import NEWLINE
 from Random_solution import random_rjesenje
 from Greedy_solution import greedy_rjesenje 
@@ -70,7 +70,10 @@ def greedy():
     if (podaci !=''):
         Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Greedy ", font=('Arial, 12')).pack()
         ruksak= Knapsack(*load_bag_from(podaci))
-        greedy_rjesenje(ruksak)
+        start = time.time()
+        rj = greedy_rjesenje(ruksak)
+        end = time.time()
+        Label(root, text="Rezultat: " + str(rj) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
     else:
         Label(root, text="Niste odabrali testni primjer!", font = ('Arial, 12')).pack()
 
@@ -85,7 +88,10 @@ def tabu():
         Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Tabu Search ", font=('Arial, 12')).pack()
         
         bag = Knapsack(*load_bag_from(podaci), tabu_list = TabuList(200))
-        bag.optimization_tabu(greedy_rjesenje, TabuSearch(300), Neighborhood.first_improve)
+        start = time.time()
+        rjesenje = bag.optimization_tabu(greedy_rjesenje, TabuSearch(300), Neighborhood.first_improve)
+        end = time.time()
+        Label(root, text="Rezultat: " + str(rjesenje) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
     else:
         Label(root, text="Niste odabrali testni primjer!", font = ('Arial, 12')).pack()
     
@@ -98,7 +104,10 @@ def genetski():
     
     if (podaci !=''):
         Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Genetički algoritam ", font=('Arial, 12')).pack()
-        main(podaci)
+        start = time.time()
+        rj = main(podaci, 300)
+        end = time.time()
+        Label(root, text="Rezultat: " + str(rj[1]) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
         
 
     else:
