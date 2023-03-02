@@ -168,7 +168,7 @@ def provjera(C):
                 kapac[i]-= W[i][j]
     print("kapacitet je ", kapac)
     
-def genetic_algorithm():
+def genetic_algorithm(iter = 200):
     t = 0
     P = inicijaliziraj()
     Fitness = [0 for i in range(len(P))]
@@ -176,7 +176,7 @@ def genetic_algorithm():
         Fitness[i] = fitness_function(P[i])
     P_t = max(Fitness)
     indeks = najveci(P)
-    while t < 100:
+    while t < iter:
         roditelji = odaberi_roditelje(P)
         P1 = roditelji[0]
         P2 = roditelji[1]
@@ -190,6 +190,7 @@ def genetic_algorithm():
         if(value_C > P_t):
             P_t = value_C
             indeks = index
+            print("Trenutno najbolji: ", P_t )
         t = t + 1
     return P[indeks], P_t
 
@@ -201,7 +202,7 @@ def broj(l):
             br += 1
     return br
 
-def main(string):
+def main(string, iter = 200):
     f = open(string)
     prvi = f.readline()
     prvi = prvi.split(' ')
@@ -229,7 +230,7 @@ def main(string):
     for i in range(m):
         B[i] = int(l[i])
 
-    Rjesenja = genetic_algorithm()
+    Rjesenja = genetic_algorithm(iter)
     provjera(Rjesenja[0])
     print("Broj predmeta je ", broj(Rjesenja[0]))
     print(Rjesenja)
