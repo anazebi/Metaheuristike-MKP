@@ -4,3 +4,4 @@ def greedy_rjesenje(ruksak):
 
     for item in items:
         ruksak.add_item(item)
+    return ruksak.value
