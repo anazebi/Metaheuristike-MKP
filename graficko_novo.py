@@ -12,6 +12,11 @@ import Neighborhood
 from TabuSearch import TabuList, TabuSearch
 import genetski
 from genetski import main, provjera 
+import HillClimbing
+import LocalSearch
+from HillClimbing import HillClimbing
+from LocalSearch import LocalSearch
+
 
 
 
@@ -19,11 +24,12 @@ from genetski import main, provjera
 
 root = tk.Tk()
 
-root.geometry("800x500")
+root.geometry("800x800")
 root.title("Višedimenzionalni problem ruksaka")
 
 label = tk.Label(root, text="Višedimenzionalni problem ruksaka" , font=('Arial', 18))
 label.pack(padx=20,pady=20)
+
 
 podaci= tk.Label(root, text="Podaci")
 podaci_combobox = ttk.Combobox(root, values=["test1_1.txt","test1_2.txt","test1_3.txt","test1_4.txt","test1_5.txt",
@@ -31,6 +37,15 @@ podaci_combobox = ttk.Combobox(root, values=["test1_1.txt","test1_2.txt","test1_
                                             "test3_1.txt","test3_2.txt","test3_3.txt","test3_4.txt","test3_5.txt"])
 podaci.pack()
 podaci_combobox.pack(padx=20, pady=10)
+
+maks_iter = tk.Label(root, text="Maksimalni broj iteracija").pack()
+maks_iter_entry = tk.Text(root, height=1, width=3)
+maks_iter_entry.pack(padx=20, pady=10)
+
+
+
+
+
 
 buttonframe = tk.Frame(root)
 buttonframe.columnconfigure(0, weight=1)
@@ -83,17 +98,19 @@ btn1.grid(row=1, column=0, sticky=tk.W+tk.E)
 
 def tabu():
     podaci = podaci_combobox.get()
+    maks_iterr = maks_iter_entry.get("1.0", "end-1c")
     
-    if (podaci !=''):
-        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Tabu Search ", font=('Arial, 12')).pack()
+    if (podaci !='' and maks_iterr!=''):
+        maks_iterr_int = int(maks_iterr)
+        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Tabu Search. " + "Maksimalni broj iteracija = "+maks_iterr, font=('Arial, 12')).pack()
         
         bag = Knapsack(*load_bag_from(podaci), tabu_list = TabuList(200))
         start = time.time()
-        rjesenje = bag.optimization_tabu(greedy_rjesenje, TabuSearch(300), Neighborhood.first_improve)
+        rjesenje = bag.optimization_tabu(greedy_rjesenje, TabuSearch(maks_iterr_int), Neighborhood.first_improve)
         end = time.time()
         Label(root, text="Rezultat: " + str(rjesenje) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
     else:
-        Label(root, text="Niste odabrali testni primjer!", font = ('Arial, 12')).pack()
+        Label(root, text="Niste odabrali testni primjer ili maksimalni broj iteracija!", font = ('Arial, 12')).pack()
     
 
 btn2 = tk.Button(buttonframe, text="Tabu Search", font=('Arial', 18), command=tabu)
@@ -103,7 +120,7 @@ def genetski():
     podaci = podaci_combobox.get()
     
     if (podaci !=''):
-        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Genetički algoritam ", font=('Arial, 12')).pack()
+        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Genetski algoritam ", font=('Arial, 12')).pack()
         start = time.time()
         rj = main(podaci, 300)
         end = time.time()
@@ -117,6 +134,46 @@ def genetski():
 
 btn3 = tk.Button(buttonframe, text="Genetski algoritam", font=('Arial', 18), command=genetski)
 btn3.grid(row=1, column=2, sticky=tk.W+tk.E)
+
+def hillClimbing():
+    podaci = podaci_combobox.get()
+    maks_iterr = maks_iter_entry.get("1.0", "end-1c")
+    
+    if (podaci !='' and maks_iterr!=''):
+        maks_iterr_int = int(maks_iterr)
+        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Hill Climbing. " + "Maksimalni broj iteracija = " +maks_iterr, font=('Arial, 12')).pack()
+        bag = Knapsack(*load_bag_from(podaci), tabu_list = TabuList(200))
+        start = time.time()
+        rj = bag.optimization_hill(greedy_rjesenje, HillClimbing(maks_iterr_int), Neighborhood.best)
+        end = time.time()
+        Label(root, text="Rezultat: " + str(rj) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
+        
+
+    else:
+        Label(root, text="Niste odabrali testni primjer ili maksimalni broj iteracija!", font = ('Arial, 12')).pack()
+
+btn4 = tk.Button(buttonframe, text="Hill Climbing", font=('Arial', 18), command=hillClimbing)
+btn4.grid(row=2, column=0, sticky=tk.W+tk.E)
+
+def local():
+    podaci = podaci_combobox.get()
+    maks_iterr = maks_iter_entry.get("1.0", "end-1c")
+    
+    if (podaci !=''):
+        maks_iterr_int = int(maks_iterr)
+        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Local Search. " + "Maksimalni broj iteracija = " + maks_iterr, font=('Arial, 12')).pack()
+        bag = Knapsack(*load_bag_from(podaci), tabu_list = TabuList(200))
+        start = time.time()
+        rj = bag.optimization_local(greedy_rjesenje, LocalSearch(maks_iterr_int), Neighborhood.first_improve)
+        end = time.time()
+        Label(root, text="Rezultat: " + str(rj) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
+        
+
+    else:
+        Label(root, text="Niste odabrali testni primjer!", font = ('Arial, 12')).pack()
+
+btn5 = tk.Button(buttonframe, text="Local Search", font=('Arial', 18), command=local)
+btn5.grid(row=2, column=1, sticky=tk.W+tk.E)
 
 buttonframe.pack(fill='x')
         
