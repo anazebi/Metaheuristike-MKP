@@ -184,7 +184,64 @@ class Knapsack(object):
         print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
         print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
 
+    def optimization_local(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):  # lokalno trazenje
+        
+        start = process_time()
+        
+        initial_solution_function(self)                         # pronalazi inicijalno rjesenje
+        self.initial_solution = deepcopy(self.items_in)         
+        self.initial_value = self.value                         # vrijednost inicijalnog rjesenja
+        
+        heuristic_function(neighborhood_function,self)
+        
+        end = process_time()
+        
+        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        for i in range(len(self.initial_solution)):
+            print (vars(self.initial_solution[i]))
+        print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
 
+        print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom lokalnog pretrazivanja na inicijalno rjesenje: %d' % self.value)              
+        print ('Koristeci lokalno trazenje ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
+
+        for i in range(properties_number):
+            print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))
+        
+        # for i in range(len(self.items_in)):
+        #    print(vars(self.items_in[i]))
+
+        print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
+        print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
+
+
+    def optimization_hill(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):  # hill climbing
+        
+        start = process_time()
+        
+        initial_solution_function(self)                         # pronalazi inicijalno rjesenje
+        self.initial_solution = deepcopy(self.items_in)         
+        self.initial_value = self.value                         # vrijednost inicijalnog rjesenja
+        
+        heuristic_function(neighborhood_function, self)
+        
+        end = process_time()
+        
+        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        for i in range(len(self.initial_solution)):
+            print (vars(self.initial_solution[i]))
+        print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
+
+        print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom hill climbing algoritma na inicijalno rjesenje: %d' % self.value)              
+        print ('Koristeci hill climbing ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
+
+        for i in range(properties_number):
+            print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))
+        
+        # for i in range(len(self.items_in)):
+        #    print(vars(self.items_in[i]))
+
+        print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
+        print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
 # klasa koja predstavlja korak prijelaza iz jedne konfiguracije u drugu
 class Step(object):
 

@@ -6,6 +6,31 @@ from Ruksak import properties_number
 def sort_steps(steps):             # sortira korake silazno po promjeni vrijednosti ruksaka koju uzrokuju
     return sorted(steps, key = lambda x: x.evaluate_step(), reverse = True)
 
+def best(knapsack):
+         
+     neighborhood = []
+
+     for item2 in knapsack.items_out:           
+
+         current_value = knapsack.value
+         print("Trenutno: ", current_value)
+
+         for item1 in knapsack.items_in:      
+
+             if knapsack.switch_possible(item1, item2):
+                 new_value = knapsack.evaluate_switch(item1, item2)
+                 step = Step(add_items = [item2,], remove_items = [item1,])
+
+                 if new_value > knapsack.value:
+                     neighborhood.append(step)
+                     print("Poboljsanje: ", new_value)
+
+                 neighborhood.append(step)
+             else:
+                 pass
+
+     return neighborhood
+
 def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksaka do pronalazenja prve zamjene predmeta koja poboljsava vrijednost ruksaka, uz postivanje svih njegovih kapaciteta
 
      neighborhood = []
