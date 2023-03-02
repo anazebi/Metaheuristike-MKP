@@ -140,9 +140,9 @@ class Knapsack(object):
 
         end = process_time()
 
-        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
-        for i in range(len(self.initial_solution)):
-            print (vars(self.initial_solution[i]))
+        # print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        # for i in range(len(self.initial_solution)):
+        #    print (vars(self.initial_solution[i]))
         print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
 
         print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom algoritma Tabu search na inicijalno rjesenje: %d' % self.value)              
@@ -167,10 +167,10 @@ class Knapsack(object):
         
         end = process_time()
         
-        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
-        for i in range(len(self.initial_solution)):
-            print (vars(self.initial_solution[i]))
-        print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
+        # print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        # for i in range(len(self.initial_solution)):
+        #    print (vars(self.initial_solution[i]))
+        # print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
 
         print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom lokalnog pretrazivanja na inicijalno rjesenje: %d' % self.value)              
         print ('Koristeci lokalno trazenje ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
@@ -196,10 +196,10 @@ class Knapsack(object):
         
         end = process_time()
         
-        print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
-        for i in range(len(self.initial_solution)):
-            print (vars(self.initial_solution[i]))
-        print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
+        # print ('Inicijalno rjesenje sadrzi sljedece predmete: ')
+        # for i in range(len(self.initial_solution)):
+        #    print (vars(self.initial_solution[i]))
+        # print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
 
         print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom lokalnog pretrazivanja na inicijalno rjesenje: %d' % self.value)              
         print ('Koristeci lokalno trazenje ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))

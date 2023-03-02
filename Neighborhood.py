@@ -28,7 +28,7 @@ def best(knapsack):
                  neighborhood.append(step)
              else:
                  pass
-
+     
      return neighborhood
 
 def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksaka do pronalazenja prve zamjene predmeta koja poboljsava vrijednost ruksaka, uz postivanje svih njegovih kapaciteta

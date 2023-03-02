@@ -49,8 +49,8 @@ if __name__ == '__main__':
 
     bag = Knapsack(*load_bag_from('250-10-02.txt'), tabu_list = TabuList(200))
     # local search heuristic
-    bag.optimization_local(greedy_rjesenje, LocalSearch(100), Neighborhood.first_improve)
+    # bag.optimization_local(greedy_rjesenje, LocalSearch(100), Neighborhood.first_improve) 
     # Tabu metaheuristic
     # bag.optimization_tabu(greedy_rjesenje, TabuSearch(300), Neighborhood.first_improve)
     # hill climbing
-    # bag.optimization_hill(greedy_rjesenje, HillClimbing(100), Neighborhood.best)
+    bag.optimization_hill(greedy_rjesenje, HillClimbing(100), Neighborhood.best)
