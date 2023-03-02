@@ -153,6 +153,8 @@ class Knapsack(object):
 
         print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
         print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
+        
+        return self.value
 
     
     def optimization_local(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):  # lokalno trazenje
@@ -183,6 +185,7 @@ class Knapsack(object):
 
         print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
         print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
+        return self.value
 
     def optimization_local(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):  # lokalno trazenje
         
@@ -212,6 +215,7 @@ class Knapsack(object):
 
         print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
         print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
+        return self.value
 
 
     def optimization_hill(self, initial_solution_function, heuristic_function = None, neighborhood_function = None):  # hill climbing
@@ -242,6 +246,7 @@ class Knapsack(object):
 
         print ('Broj predmeta u ruksaku: %s' % len(self.items_in))
         print ('Vrijeme izvrsavanja: %f milisekundi.' % ((end - start) * 1000))
+        return self.value
 # klasa koja predstavlja korak prijelaza iz jedne konfiguracije u drugu
 class Step(object):
 
