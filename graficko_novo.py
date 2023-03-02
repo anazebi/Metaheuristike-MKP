@@ -16,10 +16,7 @@ import HillClimbing
 import LocalSearch
 from HillClimbing import HillClimbing
 from LocalSearch import LocalSearch
-
-
-
-
+import os
 
 
 root = tk.Tk()
@@ -45,8 +42,6 @@ maks_iter_entry.pack(padx=20, pady=10)
 
 
 
-
-
 buttonframe = tk.Frame(root)
 buttonframe.columnconfigure(0, weight=1)
 buttonframe.columnconfigure(1, weight=1)
@@ -56,7 +51,9 @@ def load_items_from(file_name):                     # ucitavanje podataka o pred
     
     items = []
 
-    file_lines = open(file_name).readlines()
+    file_path = os.join('Testni podaci',file_name)
+
+    file_lines = open(file_path).readlines()
     file_lines = [line.strip().split(' ') for line in file_lines]
     
     number_of_items = int(file_lines[0][0])
@@ -72,12 +69,16 @@ def load_items_from(file_name):                     # ucitavanje podataka o pred
 
 def load_capacities_from(file_name):                # ucitavanje kapaciteta svih dimenzija ruksaka
 
-    lines = open(file_name).readlines()
+    file_path = os.join('Testni podaci',file_name)
+
+    lines = open(file_path).readlines()
     return lines[-1].split()
 
 def load_bag_from(file_name):                       # kreiranje ruksaka s podacima sadrzanima u datoteci file_name
 
-    capacities = load_capacities_from(file_name)
+
+    file_path = os.join('Testni podaci',file_name)
+    capacities = load_capacities_from(file_path)
     return (load_items_from(file_name), *capacities)
 
 def greedy():
