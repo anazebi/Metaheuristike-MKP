@@ -4,7 +4,7 @@ from copy import deepcopy
 from Ruksak import properties_number
 
 def sort_steps(steps):             # sortira korake silazno po promjeni vrijednosti ruksaka koju uzrokuju
-    return sorted(steps, key = lambda x: x.evaluate_step(), reverse = True)
+    return sorted(steps, key = lambda x: x.evaluate_step, reverse = True)
 
 def best(knapsack):
          
@@ -67,7 +67,7 @@ def best_improve(knapsack):        # izvrsava pronadeni korak iz okoline trenutn
 
     if not len(sorted_steps) == 0:
         next_step = sorted_steps.pop(0)
-        solution = knapsack.value + next_step.evaluate_step()
+        solution = knapsack.value + next_step.evaluate_step
         knapsack.execute_step(next_step)
 
         if solution > best_solution:

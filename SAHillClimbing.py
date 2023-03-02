@@ -25,9 +25,9 @@ class SAHillClimbing(object):
             self.iteration_counter += 1
             next_step = sorted_steps.pop(0)                 # najbolji moguci korak
 
-            if not next_step.evaluate_step() < 0:           # ako korak vodi k poboljsanju trenutnog stanja, izvrsavamo ga
+            if not next_step.evaluate_step < 0:           # ako korak vodi k poboljsanju trenutnog stanja, izvrsavamo ga
 
-                solution = knapsack.value + next_step.evaluate_step()
+                solution = knapsack.value + next_step.evaluate_step
                 knapsack.execute_step(next_step)
 
                 if solution > best_solution:

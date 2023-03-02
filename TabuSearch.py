@@ -64,7 +64,7 @@ class TabuSearch(object):
 
             if not len(sorted_steps) == 0:
                 next_step = sorted_steps.pop(0)
-                solution = knapsack.value + next_step.evaluate_step()
+                solution = knapsack.value + next_step.evaluate_step
                 knapsack.execute_step(next_step)
                 knapsack.tabu_list.append(next_step.reverse_step())          # u tabu listu dodajemo novi zabranjeni korak, koji bi ponistio upravo napravljeni korak (sprjecavamo vracanje u upravo odabrano stanje)
                 
@@ -75,9 +75,9 @@ class TabuSearch(object):
                     best_solution_items = deepcopy(knapsack.items_in)
                     self.iteration_better = self.iteration_counter
             else:
-                best_tabu = reduce(lambda x, y: x if x.evaluate_step() > y.evaluate_step() else y, knapsack.tabu_list) # najbolji zabranjeni korak
-                if best_tabu.evaluate_step() > 0:  # ako zabranjeni korak poboljsava trenutnu vrijednost ruksaka, dopustamo njegovo izvrsavanje
-                    solution = knapsack.value + best_tabu.evaluate_step()
+                best_tabu = reduce(lambda x, y: x if x.evaluate_step > y.evaluate_step else y, knapsack.tabu_list) # najbolji zabranjeni korak
+                if best_tabu.evaluate_step > 0:  # ako zabranjeni korak poboljsava trenutnu vrijednost ruksaka, dopustamo njegovo izvrsavanje
+                    solution = knapsack.value + best_tabu.evaluate_step
                     if solution > best_solution:
                         print ("[TABU POTEZ] Trenutna iteracija %d, trenutno rjesenje %d, najbolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
                         best_solution = solution

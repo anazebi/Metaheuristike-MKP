@@ -28,10 +28,16 @@ class Item(object):
 
     ## overloadamo operator == da bismo mogli usporedivati objekte klase Item
     def __eq__(self, another_item):
-        result = self.name == another_item.name and self.value == another_item.value    ## predmeti moraju imati ista imena i vrijednosti
+
+        if not self.name == another_item.name:      ## predmeti moraju imati ista imena i vrijednosti
+            return False
+       
+        if not self.value == another_item.value:
+            return False 
         
         ## vrijednosti svih tezina moraju biti jednake
         for i in range (properties_number):
-            result = getattr(self, 'property{}'.format(i + 1)) == getattr(another_item, 'property{}'.format(i + 1)) and result
+            if not getattr(self, 'property{}'.format(i + 1)) == getattr(another_item, 'property{}'.format(i + 1)):
+                return False
 
-        return result
+        return True

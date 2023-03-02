@@ -195,6 +195,7 @@ class Step(object):
         self.add_items = add_items
         self.remove_items = remove_items
 
+    @property
     def evaluate_step(self):                                   # funkcija vraca promjenu vrijednosti ruksaka nakon izvrsenog koraka, procjenjuje 'snagu' koraka
         
         increase_value = decrease_value = 0
