@@ -163,7 +163,7 @@ class Knapsack(object):
         self.initial_solution = deepcopy(self.items_in)         
         self.initial_value = self.value                         # vrijednost inicijalnog rjesenja
         
-        heuristic_function(self)
+        heuristic_function(neighborhood_function, self)
         
         end = process_time()
         
@@ -172,8 +172,8 @@ class Knapsack(object):
             print (vars(self.initial_solution[i]))
         print ('Ukupna vrijednost svih predmeta sadrzanih u inicijalnom rjesenju iznosi: %d' % self.initial_value)
 
-        print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom heuristike na inicijalno rjesenje: %d' % self.value)              
-        print ('Koristeci heuristiku ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
+        print ('Ukupna vrijednost svih predmeta sadrzanih u rjesenju dobivenom primjenom lokalnog pretrazivanja na inicijalno rjesenje: %d' % self.value)              
+        print ('Koristeci lokalno trazenje ostvareno je sljedece poboljsanje ukupne vrijednosti ruksaka: %d' % (self.value - self.initial_value))
 
         for i in range(properties_number):
             print ('Neiskoristeni kapacitet dimenzije{} : %d'.format(i + 1) % getattr(self, 'property{}'.format(i+1)))

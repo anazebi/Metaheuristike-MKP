@@ -76,7 +76,7 @@ class TabuSearch(object):
                     self.iteration_better = self.iteration_counter
             else:
                 best_tabu = reduce(lambda x, y: x if x.evaluate_step() > y.evaluate_step() else y, knapsack.tabu_list) # najbolji zabranjeni korak
-                if best_tabu.evaluate_step() > 0:  # ako zabranjeni korak daje novo globalno optimalno rjesenje, dopustamo njegovo izvrsavanje
+                if best_tabu.evaluate_step() > 0:  # ako zabranjeni korak poboljsava trenutnu vrijednost ruksaka, dopustamo njegovo izvrsavanje
                     solution = knapsack.value + best_tabu.evaluate_step()
                     if solution > best_solution:
                         print ("[TABU POTEZ] Trenutna iteracija %d, trenutno rjesenje %d, najbolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
@@ -100,7 +100,7 @@ class TabuSearch(object):
         knapsack.items_in = best_solution_items
         knapsack.steps = best_solution_steps
 
-        print ('Tabu search proveden je s maksimumom od %d iteracija i tabu listom duljine %d.' % (self.max_iteration, knapsack.tabu_list.size))
+        print ('Tabu search proveden je s maksimumom od %d %d iteracija i tabu listom duljine %d.' % (self.max_iteration, self.iteration_counter ,knapsack.tabu_list.size))
         if not end:
             print ('Tabu search je zaustavljen zbog dostizanja maksimalnog broja iteracija.')
         return False

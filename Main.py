@@ -5,6 +5,7 @@ from Predmet import Item
 from Ruksak import Knapsack
 import Neighborhood
 from TabuSearch import TabuList, TabuSearch
+from LocalSearch import LocalSearch
 
 #-------------------------------------------------------------------------------------------------#
 ################# format datoteke u kojoj su sadrzani podaci koje zelimo ucitati: #################
@@ -47,6 +48,6 @@ if __name__ == '__main__':
 
     bag = Knapsack(*load_bag_from('250-10-02.txt'), tabu_list = TabuList(200))
     # local search heuristic
-    # bag.optimization_local(greedy_rjesenje, Neighborhood.best_improve, Neighborhood.first_improve)
+    bag.optimization_local(greedy_rjesenje, LocalSearch(100), Neighborhood.first_improve)
     # Tabu metaheuristic
-    bag.optimization_tabu(greedy_rjesenje, TabuSearch(300), Neighborhood.first_improve)
+    # bag.optimization_tabu(greedy_rjesenje, TabuSearch(300), Neighborhood.first_improve)
