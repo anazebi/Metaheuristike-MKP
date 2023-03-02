@@ -12,10 +12,10 @@ import Neighborhood
 from TabuSearch import TabuList, TabuSearch
 import genetski
 from genetski import main, provjera 
-import HillClimbing
-import LocalSearch
-from HillClimbing import HillClimbing
-from LocalSearch import LocalSearch
+import SAHillClimbing
+import SHillClimbing
+from SAHillClimbing import SAHillClimbing
+from SHillClimbing import SHillClimbing
 import os
 
 
@@ -135,16 +135,16 @@ def genetski():
 btn3 = tk.Button(buttonframe, text="Genetski algoritam", font=('Arial', 18), command=genetski)
 btn3.grid(row=1, column=2, sticky=tk.W+tk.E)
 
-def hillClimbing():
+def SAhillClimbing():         # steepst-ascent hill climbing
     podaci = podaci_combobox.get()
     maks_iterr = maks_iter_entry.get("1.0", "end-1c")
     
     if (podaci !='' and maks_iterr!=''):
         maks_iterr_int = int(maks_iterr)
-        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Hill Climbing. " + "Maksimalni broj iteracija = " +maks_iterr, font=('Arial, 12')).pack()
+        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Steepest-ascent Hill Climbing. " + "Maksimalni broj iteracija = " +maks_iterr, font=('Arial, 12')).pack()
         bag = Knapsack(*load_bag_from(podaci), tabu_list = TabuList(200))
         start = time.time()
-        rj = bag.optimization_hill(greedy_rjesenje, HillClimbing(maks_iterr_int), Neighborhood.best)
+        rj = bag.optimization_hill(greedy_rjesenje, SAHillClimbing(maks_iterr_int), Neighborhood.best)
         end = time.time()
         Label(root, text="Rezultat: " + str(rj) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
         
@@ -152,19 +152,19 @@ def hillClimbing():
     else:
         Label(root, text="Niste odabrali testni primjer ili maksimalni broj iteracija!", font = ('Arial, 12')).pack()
 
-btn4 = tk.Button(buttonframe, text="Hill Climbing", font=('Arial', 18), command=hillClimbing)
+btn4 = tk.Button(buttonframe, text="Steepest-ascent Hill Climbing", font=('Arial', 18), command=SAhillClimbing)
 btn4.grid(row=2, column=0, sticky=tk.W+tk.E)
 
-def local():
+def ShillClimbing():            # simple hill climbing
     podaci = podaci_combobox.get()
     maks_iterr = maks_iter_entry.get("1.0", "end-1c")
     
     if (podaci !=''):
         maks_iterr_int = int(maks_iterr)
-        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Local Search. " + "Maksimalni broj iteracija = " + maks_iterr, font=('Arial, 12')).pack()
+        Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Simple Hill Climbing. " + "Maksimalni broj iteracija = " + maks_iterr, font=('Arial, 12')).pack()
         bag = Knapsack(*load_bag_from(podaci), tabu_list = TabuList(200))
         start = time.time()
-        rj = bag.optimization_local(greedy_rjesenje, LocalSearch(maks_iterr_int), Neighborhood.first_improve)
+        rj = bag.optimization_hill(greedy_rjesenje, SHillClimbing(maks_iterr_int), Neighborhood.first_improve)
         end = time.time()
         Label(root, text="Rezultat: " + str(rj) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
         
@@ -172,7 +172,7 @@ def local():
     else:
         Label(root, text="Niste odabrali testni primjer ili maksimalni broj iteracija!", font = ('Arial, 12')).pack()
 
-btn5 = tk.Button(buttonframe, text="Local Search", font=('Arial', 18), command=local)
+btn5 = tk.Button(buttonframe, text="Simple Hill Climbing", font=('Arial', 18), command=ShillClimbing)
 btn5.grid(row=2, column=1, sticky=tk.W+tk.E)
 
 buttonframe.pack(fill='x')

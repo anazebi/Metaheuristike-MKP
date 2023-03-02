@@ -5,8 +5,8 @@ from Predmet import Item
 from Ruksak import Knapsack
 import Neighborhood
 from TabuSearch import TabuList, TabuSearch
-from LocalSearch import LocalSearch
-from HillClimbing import HillClimbing
+from SHillClimbing import LocalSearch
+from SAHillClimbing import HillClimbing
 
 #-------------------------------------------------------------------------------------------------#
 ################# format datoteke u kojoj su sadrzani podaci koje zelimo ucitati: #################
@@ -53,5 +53,4 @@ if __name__ == '__main__':
     # Tabu metaheuristic
     # bag.optimization_tabu(greedy_rjesenje, TabuSearch(300), Neighborhood.first_improve)
     # hill climbing
-    rj = bag.optimization_hill(greedy_rjesenje, HillClimbing(100), Neighborhood.best)
-    return rj
+    bag.optimization_hill(greedy_rjesenje, HillClimbing(100), Neighborhood.best)
