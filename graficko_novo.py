@@ -170,7 +170,7 @@ def local():
         
 
     else:
-        Label(root, text="Niste odabrali testni primjer!", font = ('Arial, 12')).pack()
+        Label(root, text="Niste odabrali testni primjer ili maksimalni broj iteracija!", font = ('Arial, 12')).pack()
 
 btn5 = tk.Button(buttonframe, text="Local Search", font=('Arial', 18), command=local)
 btn5.grid(row=2, column=1, sticky=tk.W+tk.E)
