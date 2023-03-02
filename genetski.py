@@ -234,4 +234,5 @@ def main(string, iter = 200):
     provjera(Rjesenja[0])
     print("Broj predmeta je ", broj(Rjesenja[0]))
     print(Rjesenja)
+    return Rjesenja
     
