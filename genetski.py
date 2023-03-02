@@ -19,7 +19,7 @@ def crossover1(A, B):
 
 def crossover2(A, B):
     a = random.randint(0, n-1)
-    C = A
+    C = A.copy()
     for i in range(a, n):
         C[i] = B[i]
     return C
@@ -180,7 +180,7 @@ def genetic_algorithm(iter = 200):
         roditelji = odaberi_roditelje(P)
         P1 = roditelji[0]
         P2 = roditelji[1]
-        C = crossover1(P1, P2)
+        C = crossover2(P1, P2)
         C = repair(mutiraj(C), W)
         if(C in P):
             continue
