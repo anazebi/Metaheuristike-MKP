@@ -22,7 +22,7 @@ class Item(object):
         suma = 0
 
         for i in range(properties_number):
-            suma += getattr(self, 'property{}'.format(i+1))
+            suma += int(getattr(self, 'property{}'.format(i+1)))
         
         return self.value / suma
 

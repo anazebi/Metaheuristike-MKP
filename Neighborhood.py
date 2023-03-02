@@ -10,12 +10,12 @@ def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksak
 
      neighborhood = []
 
-     for item2 in knapsack.sort(knapsack.items_out):            
+     for item2 in knapsack.sort(knapsack.items_out):            # ubacujem predmet s NAJVECIM omjerom vrijednost : suma tezina
 
          current_value = knapsack.value
          print("Trenutno: ", current_value)
 
-         for item1 in knapsack.sort(knapsack.items_in):
+         for item1 in knapsack.sort_up(knapsack.items_in):      # izbacujem predmet s NAJMANJIM omjerom vrijednost : suma tezina
 
              if knapsack.switch_possible(item1, item2):
                  new_value = knapsack.evaluate_switch(item1, item2)
@@ -24,7 +24,7 @@ def first_improve(knapsack):       # gradi okolinu trenutne konfiguracije ruksak
                  if new_value > knapsack.value:
                      neighborhood.append(step)
                      print("Poboljsanje: ", new_value)
-                     return neighborhood
+                     return neighborhood                    # okolina se gradi do prvog susjeda koji poboljsava trenutnu vrijednost ruksaka
 
                  neighborhood.append(step)
              else:

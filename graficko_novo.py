@@ -13,8 +13,6 @@ from TabuSearch import TabuList, TabuSearch
 
 
 
-
-
 root = tk.Tk()
 
 root.geometry("800x500")

@@ -78,6 +78,9 @@ class Knapsack(object):
     def sort(self, items):                      # vraca listu predmeta sortiranu po omjeru vrijednosti i ukupne tezine
         return sorted(items, key = Item.ratio, reverse = True)
 
+    def sort_up(self, items):
+        return sorted(items, key = Item.ratio, reverse = False)
+
     def switch_possible(self, item1, item2):    # vraca True ako predmet item1 iz ruksaka mogu zamijeniti predmetom item2 koji nije u ruksaku
 
         if item1 not in self.items_in or item2 in self.items_in:
