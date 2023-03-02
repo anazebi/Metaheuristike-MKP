@@ -10,6 +10,8 @@ from Predmet import Item
 from Ruksak import Knapsack
 import Neighborhood
 from TabuSearch import TabuList, TabuSearch
+import genetski
+from genetski import main
 
 
 
@@ -24,7 +26,7 @@ label.pack(padx=20,pady=20)
 podaci= tk.Label(root, text="Podaci")
 podaci_combobox = ttk.Combobox(root, values=["test1.txt", "test2.txt", "test3.txt"])
 podaci.pack()
-podaci_combobox.pack()
+podaci_combobox.pack(padx=20, pady=10)
 
 buttonframe = tk.Frame(root)
 buttonframe.columnconfigure(0, weight=1)
@@ -87,18 +89,20 @@ def tabu():
 btn2 = tk.Button(buttonframe, text="Tabu Search", font=('Arial', 18), command=tabu)
 btn2.grid(row=1, column=1, sticky=tk.W+tk.E)
 
-def geneticki():
+def genetski():
     podaci = podaci_combobox.get()
     
     if (podaci !=''):
         Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Genetički algoritam ", font=('Arial, 12')).pack()
+
+        main(podaci)
 
     else:
         Label(root, text="Niste odabrali testni primjer!", font = ('Arial, 12')).pack()
     
 
 
-btn3 = tk.Button(buttonframe, text="Genetički algoritam", font=('Arial', 18), command=geneticki)
+btn3 = tk.Button(buttonframe, text="Genetski algoritam", font=('Arial', 18), command=genetski)
 btn3.grid(row=1, column=2, sticky=tk.W+tk.E)
 
 buttonframe.pack(fill='x')
