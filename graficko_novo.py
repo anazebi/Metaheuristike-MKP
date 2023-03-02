@@ -11,7 +11,9 @@ from Ruksak import Knapsack
 import Neighborhood
 from TabuSearch import TabuList, TabuSearch
 import genetski
-from genetski import main
+from genetski import main, provjera 
+
+
 
 
 
@@ -24,7 +26,9 @@ label = tk.Label(root, text="Višedimenzionalni problem ruksaka" , font=('Arial'
 label.pack(padx=20,pady=20)
 
 podaci= tk.Label(root, text="Podaci")
-podaci_combobox = ttk.Combobox(root, values=["test1.txt", "test2.txt", "test3.txt"])
+podaci_combobox = ttk.Combobox(root, values=["test1_1.txt","test1_2.txt","test1_3.txt","test1_4.txt","test1_5.txt",
+                                            "test2_1.txt","test2_2.txt","test2_3.txt","test2_4.txt","test2_5.txt",
+                                            "test3_1.txt","test3_2.txt","test3_3.txt","test3_4.txt","test3_5.txt"])
 podaci.pack()
 podaci_combobox.pack(padx=20, pady=10)
 
@@ -94,8 +98,8 @@ def genetski():
     
     if (podaci !=''):
         Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Genetički algoritam ", font=('Arial, 12')).pack()
-
         main(podaci)
+        
 
     else:
         Label(root, text="Niste odabrali testni primjer!", font = ('Arial, 12')).pack()
