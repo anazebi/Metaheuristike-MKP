@@ -75,10 +75,10 @@ class Knapsack(object):
     def __contains__(self, item):
         return any(map(lambda x: x == item, self.items_in))    ## any vraca True ako je bilo koja od vrijednosti True, map vraca listu vrijednosti dobivenih kad lambda funkciju primijenimo na listu predmeta u ruksaku 
 
-    def sort(self, items):                      # vraca listu predmeta sortiranu po omjeru vrijednosti i ukupne tezine
+    def sort(self, items):                      # vraca listu predmeta sortiranu silazno po omjeru vrijednosti i ukupne tezine
         return sorted(items, key = Item.ratio, reverse = True)
 
-    def sort_up(self, items):
+    def sort_up(self, items):                   # vraca listu predmeta sortiranu uzlazno po omjeru vrijednosti i ukupne tezine
         return sorted(items, key = Item.ratio, reverse = False)
 
     def switch_possible(self, item1, item2):    # vraca True ako predmet item1 iz ruksaka mogu zamijeniti predmetom item2 koji nije u ruksaku
