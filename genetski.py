@@ -1,13 +1,13 @@
 import random
 import numpy as np
 
-def fitness_function(C):
+def fitness_function(C):                    # vraca ukupnu vrijednost ruksaka s konfiguracijom C[]
     suma = 0
     for i in range(n):
         suma += V[i] * C[i]
     return suma
 
-def crossover1(A, B):
+def crossover1(A, B):                        
     C = [0 for i in range(n)]
     for i in range(n):
         a = random.randint(0, 1)
@@ -17,43 +17,43 @@ def crossover1(A, B):
             C[i] = B[i]
     return C
 
-def crossover2(A, B):
+def crossover2(A, B):                   # provodi crossover sa slucajno izabranim bitom raspolavljanja
     a = random.randint(0, n-1)
     C = A.copy()
     for i in range(a, n):
         C[i] = B[i]
     return C
 
-def mutiraj(C):
+def mutiraj(C):                         # mutira dva bita u konfiguraciji C
     a = random.randint(0, n-1)
     C[a] = abs(C[a] - 1)
     a = random.randint(0, n-1)
     C[a] = abs(C[a] - 1)
     return C
 
-def provjeri_kapacitet(R):
-    for i in range(m):
+def provjeri_kapacitet(R):              # vraca 1 ako je suma tezina predmeta bilo koje dimenzije veca od preostalog kapaciteta ruksaka            
+    for i in range(m):                  # inace 0
         if(R[i] > B[i]):
             return 1
     return 0
 
 
-def update(R, j, korak):
-    for i in range(m):
-        if(korak == -1):
+def update(R, j, korak):                # korak poprima vrijednosti 1 i -1
+    for i in range(m):                  
+        if(korak == -1):                # korak = -1 znaci da iz ruksaka uklanjamo j-ti predmet
             R[i] -= W[i][j]
         else:
-            R[i] += W[i][j]
+            R[i] += W[i][j]             # korak = 1 znaci da u ruksak dodajemo j-ti predmet
 
 
-def provjeri_update(R, j):
-    for i in range(m):
+def provjeri_update(R, j):              # vraca jedan ako dodavanje j-tog predmeta ne prelazi nijedan od kapacitet ruksaka
+    for i in range(m):                  # vraca 0 inace
         if(R[i] + W[i][j] > B[i]):
             return 0
     return 1
 
 
-def stvori(C):
+def stvori(C):                          # za konfiguraciju C[] vraca vektor R za koji vrijedi R[i] = ukupna vrijednost i-te dimenzije konfiguracije C
     R = [0 for i in range(m)]
     for i in range(m):
         for j in range(n):
@@ -61,7 +61,8 @@ def stvori(C):
     return R
 
 
-def najmanji(P):
+def najmanji(P):                       # vraca najslabiju jedinku populacije P
+
     mini = 0
     najmanji_do_sada = fitness_function(P[0])
     for i in range(1, len(P)):
@@ -71,7 +72,7 @@ def najmanji(P):
     return mini
 
 
-def najveci(P):
+def najveci(P):                         # vraca najjacu jedinku populacije P
     maxi = 0
     najveci_do_sada = fitness_function(P[0])
     for i in range(1, len(P)):
@@ -118,7 +119,7 @@ def najm(A):
     return i
     
 def repair(C, W):
-    A = ratio(n, m)  # vraca listu omjera vrijednosti i tezine za svaki predmet
+    A = ratio(n, m)                     # vraca listu omjera vrijednosti i tezine za svaki predmet
     R = [0 for i in range(m)]
 
     for i in range(m):
@@ -159,7 +160,7 @@ def inicijaliziraj():
             T.remove(j)
     return P
 
-def provjera(C):
+def provjera(C):                    # vraca preostali kapacitet dimenzija ruksaka za konfiguraciju C
     kapac = B.copy()
     print("na pocetku", kapac)
     for i in range(m):
@@ -206,17 +207,17 @@ def main(string, iter = 200):
     f = open(string)
     prvi = f.readline()
     prvi = prvi.split(' ')
-    global n 
+    global n                                            # n - broj predmeta
     n = int(prvi[0])
-    global m
+    global m                                            # m - broj dimenzija
     m= int(prvi[1])
     drugi = f.readline().replace('\n', '').split(' ')
-    global V
+    global V                                            # V[] - vrijednosti predmeta
     V = [0 for i in range(n)]
     for i in range(n):
         V[i] = int(drugi[i])
 
-    global W
+    global W                                            # W[i][j] - vrijednost j-te dimenzije i-tog predmeta
     W = [[0 for i in range(n)] for j in range(m)]
     for i in range(m):
         l = f.readline()
@@ -225,7 +226,7 @@ def main(string, iter = 200):
             W[i][j] = int(l[j])
 
     global B
-    B = [0 for i in range(m)]
+    B = [0 for i in range(m)]                           # B[i] - kapacitet i-te dimenzije ruksaka
     l = f.readline().replace('\n', '').split(' ')
     for i in range(m):
         B[i] = int(l[i])

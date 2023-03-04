@@ -39,6 +39,8 @@ class TabuSearch(object):
         
     def __call__(self, neighborhood_function, knapsack):
 
+        # f = open('Tabu_Rezultati 3.1.txt', 'w')
+
         solutions = neighborhood_function(knapsack) 
         sorted_steps = sort_steps(solutions)
         #for tabu in knapsack.tabu_list:
@@ -50,6 +52,8 @@ class TabuSearch(object):
         best_solution_steps = deepcopy(knapsack.steps)
         best_solution_items = deepcopy(knapsack.items_in)
         end = False
+
+        f.write(str(self.iteration_counter) + ' ' + str(best_solution) + '\n')
 
         while self.iteration_counter - self.iteration_better < self.max_iteration:   
             self.iteration_counter += 1
@@ -74,7 +78,7 @@ class TabuSearch(object):
                     best_solution_steps = deepcopy(knapsack.steps)
                     best_solution_items = deepcopy(knapsack.items_in)
                     self.iteration_better = self.iteration_counter
-            else:
+            else: # ne postoji nijedan dozvoljeni korak
                 best_tabu = reduce(lambda x, y: x if x.evaluate_step > y.evaluate_step else y, knapsack.tabu_list) # najbolji zabranjeni korak
                 if best_tabu.evaluate_step > 0:  # ako zabranjeni korak poboljsava trenutnu vrijednost ruksaka, dopustamo njegovo izvrsavanje
                     solution = knapsack.value + best_tabu.evaluate_step
@@ -90,10 +94,15 @@ class TabuSearch(object):
             next_solutions = neighborhood_function(knapsack) 
             sorted_steps = sort_steps(next_solutions)
             [sorted_steps.remove(tabu.reverse_step()) for tabu in knapsack.tabu_list if tabu.reverse_step() in sorted_steps] # micemo zabranjene poteze iz dostupnih poteza
+
+            # if self.iteration_counter % 10 == 0 or self.iteration_better == self.iteration_counter:
+            #    f.write(str(self.iteration_counter) + ' ' + str(best_solution) + '\n')
+
             # for tabu in knapsack.tabu_list:
                 # if tabu.reverse_step() in sorted_steps:
                     # sorted_steps.remove(tabu.reverse_step())
 
+        # f.close()
         print ("Najbolje rjesenje nadeno je u iteraciji %d s vrijednoscu %d" % (self.iteration_better, best_solution))
 
         knapsack.value = best_solution
@@ -104,3 +113,5 @@ class TabuSearch(object):
         if not end:
             print ('Tabu search je zaustavljen zbog dostizanja maksimalnog broja iteracija.')
         return False
+
+        

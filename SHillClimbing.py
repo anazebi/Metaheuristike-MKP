@@ -13,12 +13,15 @@ class SHillClimbing(object):
 
     def __call__(self, neighborhood_function, knapsack):
 
+        # f = open('SHill_Rezultati 3.1.txt', 'w')
         solutions = neighborhood_function(knapsack)         # moguci koraci iz trenutnog stanja
         sorted_steps = sort_steps(solutions)                # sortiranje koraka 
 
         best_solution = knapsack.value                      # trenutna konfiguracija
         # best_solution_steps = deepcopy(knapsack.steps)      
         best_solution_items = deepcopy(knapsack.items_in)   
+
+        # f.write(str(self.iteration_counter) + ' ' + str(best_solution) + '\n')
 
         while self.iteration_counter < self.max_iteration:  # broj iteracija kontroliramo iz vana
             
@@ -41,8 +44,12 @@ class SHillClimbing(object):
             next_solutions = neighborhood_function(knapsack)
             sorted_steps = sort_steps(next_solutions)
 
+            # if self.iteration_counter % 20 == 0 or self.iteration_better == self.iteration_counter:
+            #    f.write(str(self.iteration_counter) + ' ' + str(best_solution) + '\n')
+
         knapsack.items_in = best_solution_items
         knapsack.value = best_solution
+        f.close()
 
         print("Provedeno je ukupno %d iteracija" %self.iteration_counter)
         print ("Najbolje rjesenje nadeno je u iteraciji %d s vrijednoscu %d" % (self.iteration_better, best_solution))

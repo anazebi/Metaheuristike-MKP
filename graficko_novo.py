@@ -17,9 +17,11 @@ import SHillClimbing
 from SAHillClimbing import SAHillClimbing
 from SHillClimbing import SHillClimbing
 import os
+from pathlib import Path
 
 
 root = tk.Tk()
+v = Scrollbar(root, orient='vertical')
 
 root.geometry("800x800")
 root.title("Višedimenzionalni problem ruksaka")
