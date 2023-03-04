@@ -18,17 +18,23 @@ def crossover1(A, B):
     return C
 
 def crossover2(A, B):                   # provodi crossover sa slucajno izabranim bitom raspolavljanja
+
+    djeca = []
     a = random.randint(0, n-1)
     C = A.copy()
+    D = A.copy()
     for i in range(a, n):
         C[i] = B[i]
-    return C
+    for i in range(a):
+        D[i] = B[i]
+    djeca.append(C)
+    djeca.append(D)
+    return djeca
 
-def mutiraj(C):                         # mutira dva bita u konfiguraciji C
-    a = random.randint(0, n-1)
-    C[a] = abs(C[a] - 1)
-    a = random.randint(0, n-1)
-    C[a] = abs(C[a] - 1)
+def mutiraj(C):                         # mutira bitove  u konfiguraciji C
+    for i in range(int(0.02 * n)):
+        a = random.randint(0, n-1)
+        C[a] = abs(C[a] - 1)
     return C
 
 def provjeri_kapacitet(R):              # vraca 1 ako je suma tezina predmeta bilo koje dimenzije veca od preostalog kapaciteta ruksaka            
@@ -83,13 +89,27 @@ def najveci(P):                         # vraca najjacu jedinku populacije P
 
 
 def odaberi_roditelje(P):
-    A = P
+    A = P.copy()
     Rez = []
-    p1 = najveci(A)  # vraca indeks jedinke s najvecom fitness funkcijom
-    P1 = A[p1]  # uzimamo tu jedinku
-    A = np.delete(A, p1, 0)
-    drugi = najveci(A)
-    P2 = A[drugi]
+    
+    a = random.randint(0,len(P) - 1)
+    b = random.randint(0,len(P) - 1)
+    while(a == b):
+        a = random.randint(0,len(P) - 1)
+        b = random.randint(0,len(P) - 1)
+    if(fitness_function(P[a]) > fitness_function(P[b])):
+        P1 = A[a]
+    else:
+        P1 = A[b]
+    A = np.delete(A, a, 0)
+    
+    a = random.randint(0,len(A) - 1)
+    b = random.randint(0,len(A) - 1)
+    if(fitness_function(A[a]) > fitness_function(A[b])):
+        P2 = A[a]
+    else:
+        P2 = A[b]
+        
     Rez.append(P1)
     Rez.append(P2)
     return Rez
@@ -168,31 +188,70 @@ def provjera(C):                    # vraca preostali kapacitet dimenzija ruksak
             if(C[j] == 1):
                 kapac[i]-= W[i][j]
     print("kapacitet je ", kapac)
+   
+
+def pronadi_najbolje(P):
+    A = P.copy()
+    a = []
+    i1 = najveci(P)
+    A[i1] = [0 for i in range(n)]
+    i2 = najveci(A)
+    a.append(P[i1])
+    a.append(P[i2]) 
+    return a
     
 def genetic_algorithm(iter = 200):
-    t = 0
     P = inicijaliziraj()
     Fitness = [0 for i in range(len(P))]
     for i in range(len(P)):
         Fitness[i] = fitness_function(P[i])
-    P_t = max(Fitness)
+    P_t = max(Fitness) # najveca vrijednost u pocetnoj populaciji
+    print("Najveca pocetna: ", P_t)
     indeks = najveci(P)
-    while t < iter:
+    
+    for j in range(iter):
+        najbolji = pronadi_najbolje(P)
+        prvi = najbolji[0]
+        drugi = najbolji[1]
+        
         roditelji = odaberi_roditelje(P)
         P1 = roditelji[0]
         P2 = roditelji[1]
-        C = crossover2(P1, P2)
-        C = repair(mutiraj(C), W)
-        if(C in P):
-            continue
-        value_C = fitness_function(C)
+        t = 0
+        while t < 49:
+            t = t + 1
+            djeca = crossover2(P1, P2)
+            C = djeca[0]
+            D = djeca[1]
+            C = repair(mutiraj(C), W)
+            D = repair(mutiraj(D), W)
+            
+            if C in P:
+                continue
+            value_C = fitness_function(C)
+            index = najmanji(P)
+            P[index] = C  
+            
+            if D in P:
+                continue
+            value_D = fitness_function(D)
+            index = najmanji(P)
+            P[index] = D
+            
+            if(value_C > P_t):
+                P_t = value_C
+                indeks = index
+            if(value_D > P_t):
+                P_t = value_D
+                indeks = index
+                
+        print("Iteracija: ", j , ", Trenutno najbolji: ", P_t )
+        
         index = najmanji(P)
-        P[index] = C
-        if(value_C > P_t):
-            P_t = value_C
-            indeks = index
-            print("Trenutno najbolji: ", P_t )
-        t = t + 1
+        P[index] = prvi
+        index = najmanji(P)
+        P[index] = drugi
+        
     return P[indeks], P_t
 
 
@@ -236,4 +295,6 @@ def main(string, iter = 200):
     print("Broj predmeta je ", broj(Rjesenja[0]))
     print(Rjesenja)
     return Rjesenja
+    
+
     
