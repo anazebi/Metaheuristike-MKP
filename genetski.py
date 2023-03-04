@@ -82,7 +82,7 @@ def najveci(P):
 
 
 def odaberi_roditelje(P):
-    A = P
+    A = P.copy()
     Rez = []
     p1 = najveci(A)  # vraca indeks jedinke s najvecom fitness funkcijom
     P1 = A[p1]  # uzimamo tu jedinku
@@ -176,10 +176,10 @@ def genetic_algorithm(iter = 200):
         Fitness[i] = fitness_function(P[i])
     P_t = max(Fitness)
     indeks = najveci(P)
+    roditelji = odaberi_roditelje(P)
+    P1 = roditelji[0]
+    P2 = roditelji[1]
     while t < iter:
-        roditelji = odaberi_roditelje(P)
-        P1 = roditelji[0]
-        P2 = roditelji[1]
         C = crossover2(P1, P2)
         C = repair(mutiraj(C), W)
         if(C in P):
@@ -187,11 +187,16 @@ def genetic_algorithm(iter = 200):
         value_C = fitness_function(C)
         index = najmanji(P)
         P[index] = C
+        
         if(value_C > P_t):
             P_t = value_C
             indeks = index
-            print("Trenutno najbolji: ", P_t )
+            print("Ietacija: ", t , ", Trenutno najbolji: ", P_t )            
+            roditelji = odaberi_roditelje(P)
+            P1 = roditelji[0]
+            P2 = roditelji[1]
         t = t + 1
+        
     return P[indeks], P_t
 
 
