@@ -120,11 +120,13 @@ btn2.grid(row=1, column=1, sticky=tk.W+tk.E)
 def genetski():
     podaci = podaci_combobox.get()
     podaci = os.path.join('Testni podaci', podaci)
+    maks_iterr = maks_iter_entry.get("1.0", "end-1c")
     
-    if (podaci !=''):
+    if (podaci !='' and maks_iter != ''):
+        maks_iterr = int(maks_iterr)
         Label(root, text="Odabrali ste testni primjer " +  podaci + ". " + "Odabrani algoritam : Genetski algoritam ", font=('Arial, 12')).pack()
         start = time.time()
-        rj = main(podaci, 300)
+        rj = main(podaci, maks_iterr)
         end = time.time()
         Label(root, text="Rezultat: " + str(rj[1]) + "\n Potrebno vrijeme: " + str(round(end-start,3)) + " s", font=('Arial, 12')).pack()
         
