@@ -53,10 +53,11 @@ class TabuSearch(object):
         best_solution_items = deepcopy(knapsack.items_in)
         end = False
 
-        f.write(str(self.iteration_counter) + ' ' + str(best_solution) + '\n')
+        # f.write(str(self.iteration_counter) + ' ' + str(best_solution) + '\n')
 
         while self.iteration_counter - self.iteration_better < self.max_iteration:   
             self.iteration_counter += 1
+            # print("Iteracija: ", self.iteration_counter)
             
             # if self.iteration_counter < 5:
             #    print("IN")
@@ -79,17 +80,18 @@ class TabuSearch(object):
                     best_solution_items = deepcopy(knapsack.items_in)
                     self.iteration_better = self.iteration_counter
             else: # ne postoji nijedan dozvoljeni korak
+                print("TABU")
                 best_tabu = reduce(lambda x, y: x if x.evaluate_step > y.evaluate_step else y, knapsack.tabu_list) # najbolji zabranjeni korak
                 if best_tabu.evaluate_step > 0:  # ako zabranjeni korak poboljsava trenutnu vrijednost ruksaka, dopustamo njegovo izvrsavanje
                     solution = knapsack.value + best_tabu.evaluate_step
+                    knapsack.execute_step(best_tabu)
+                    knapsack.tabu_list.append(best_tabu.reverse_step())
                     if solution > best_solution:
                         print ("[TABU POTEZ] Trenutna iteracija %d, trenutno rjesenje %d, najbolje rjesenje pronadeno u iteraciji %d s vrijednosti %d" % (self.iteration_counter, solution, self.iteration_better, best_solution))
                         best_solution = solution
                         best_solution_steps = deepcopy(knapsack.steps)
                         best_solution_items = deepcopy(knapsack.items_in)
                         self.iteration_better = self.iteration_counter
-                    
-                    knapsack.execute_step(best_tabu)
             
             next_solutions = neighborhood_function(knapsack) 
             sorted_steps = sort_steps(next_solutions)
