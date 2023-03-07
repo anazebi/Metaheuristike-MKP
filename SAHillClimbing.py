@@ -51,7 +51,7 @@ class SAHillClimbing(object):
 
         knapsack.items_in = best_solution_items
         knapsack.value = best_solution
-        f.close()
+        # f.close()
         
 
         print("Provedeno je ukupno %d iteracija" %self.iteration_counter)

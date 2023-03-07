@@ -80,7 +80,7 @@ class TabuSearch(object):
                     best_solution_items = deepcopy(knapsack.items_in)
                     self.iteration_better = self.iteration_counter
             else: # ne postoji nijedan dozvoljeni korak
-                print("TABU")
+                # print("TABU")
                 best_tabu = reduce(lambda x, y: x if x.evaluate_step > y.evaluate_step else y, knapsack.tabu_list) # najbolji zabranjeni korak
                 if best_tabu.evaluate_step > 0:  # ako zabranjeni korak poboljsava trenutnu vrijednost ruksaka, dopustamo njegovo izvrsavanje
                     solution = knapsack.value + best_tabu.evaluate_step

@@ -49,7 +49,7 @@ class SHillClimbing(object):
 
         knapsack.items_in = best_solution_items
         knapsack.value = best_solution
-        f.close()
+        # f.close()
 
         print("Provedeno je ukupno %d iteracija" %self.iteration_counter)
         print ("Najbolje rjesenje nadeno je u iteraciji %d s vrijednoscu %d" % (self.iteration_better, best_solution))
